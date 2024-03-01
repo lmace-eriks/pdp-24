@@ -1,0 +1,272 @@
+[data-flex-vc] {
+  display: flex;
+  align-items: center;
+}
+
+[data-flex-hc] {
+  display: flex;
+  justify-content: center;
+}
+
+.priceContainer {
+  font-size: 1.75rem;
+  display: flex;
+  gap: 1rem;
+  height: 2.5rem;
+  align-items: center;
+}
+
+.listPrice {
+  font-size: 75%;
+  color: var(--ebs-mid-grey);
+  opacity: 0.65;
+}
+
+.sellingPrice {
+}
+
+.sizeToolButton {
+  background-color: black;
+  color: white;
+  font-size: 0.9rem;
+  text-align: center;
+  font-weight: bold;
+  display: grid;
+  place-items: center;
+  height: 2.5rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  margin-bottom: 1rem;
+}
+
+.container {
+  max-width: 96rem;
+  margin: 0 auto;
+  padding: 0 0.5rem;
+}
+
+.section {
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.sectionButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 2.75rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+}
+
+.caret {
+  transition: transform 500ms ease;
+}
+
+[data-active-section="false"] .caret {
+  transform: rotate(180deg);
+}
+
+.sectionTitle {
+  margin: 0;
+}
+
+.section[data-active-section="true"] .window {
+  height: auto;
+}
+
+.window {
+  height: 0;
+  overflow: hidden;
+  padding: 0 1rem;
+}
+
+.kitCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.productName {
+  font-weight: normal;
+  margin: 0;
+}
+
+.shippingPromo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 3rem;
+  background-color: var(--ebs-light-grey);
+  border-radius: 0.25rem;
+  color: black;
+  margin: 0.5rem 0;
+}
+
+.shippingPromoLabel {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.chargeFreight,
+.freeShippingThreshold {
+  font-size: 0.85rem;
+}
+
+.breadcrumbsNav {
+  height: 1.75rem;
+  font-size: 0.9rem;
+  --breadcrumb-gap: 0.75rem;
+}
+
+.breadcrumbsList {
+  list-style: none;
+  height: 100%;
+  gap: var(--breadcrumb-gap);
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumbsListItem {
+}
+
+.breadcrumbsLink {
+  color: inherit;
+}
+
+.breadcrumbsSeparator {
+  margin-right: var(--breadcrumb-gap);
+}
+
+.productNumber {
+  height: 1rem;
+  font-size: 0.8rem;
+  color: var(--ebs-mid-grey);
+}
+
+.bikeFinderContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.finderLink {
+  display: block;
+}
+
+.productOverview {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 8rem;
+  padding: 2rem;
+  margin: 1rem 0;
+  background-color: var(--ebs-light-grey);
+}
+
+.section[data-active-section="true"] .window:empty {
+  height: 17.5rem;
+  background-color: var(--ebs-light-grey);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.floatContainer {
+  position: fixed;
+  inset: auto 0 1rem 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+
+  transition-property: opacity, transform;
+  transition-duration: 300ms;
+  transition-timing-function: ease-out;
+}
+
+.floatContainer[data-inactive="true"] {
+  opacity: 0;
+  transform: translateY(150%);
+}
+
+.floatWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  background-color: white;
+  border: 1px solid black;
+  padding: 0.5rem 3rem;
+  position: relative;
+}
+
+.floatClose {
+  position: absolute;
+  inset: 0.25rem 0.25rem auto auto;
+  font-family: inherit;
+  line-height: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background-color: transparent;
+  border: 1px solid var(--30-dark);
+  color: var(--70-dark);
+  font-size: 0.9rem;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.floatTitleAndDetails {
+}
+
+.floatProductTitle {
+  white-space: nowrap;
+  font-size: 1.25rem;
+}
+
+.floatProductDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.floatDetailItem {
+}
+
+.floatDetailName {
+  font-size: 0.8rem;
+}
+
+.floatDetailValue {
+}
+
+.mainImageContainer {
+}
+
+.lowResLCPContainer {
+  display: grid;
+  place-items: center;
+  height: 600px;
+}
+
+.lowResLCP {
+}
+
+.skeletonThumbnailsContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.skeletonThumbnail {
+  border-radius: 0.25rem;
+  background-color: var(--ebs-light-grey);
+  width: 75px;
+  height: 75px;
+}

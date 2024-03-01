@@ -1,0 +1,35 @@
+{
+  "pdp-24": {
+    "component": "PDP24",
+    "composition": "children"
+  },
+  "ebs-float-cart-button": {
+    "component": "FloatCartButton",
+    "composition": "children"
+  },
+  "ebs-product-main-image": {
+    "component": "ProductMainImage",
+    "composition": "children"
+  },
+  "ebs-product-name": {
+    "component": "ProductName"
+  },
+  "ebs-shipping-promo": {
+    "component": "ShippingPromo"
+  },
+  "ebs-breadcrumbs": {
+    "component": "Breadcrumbs"
+  },
+  "ebs-product-number": {
+    "component": "EriksProductNumber"
+  },
+  "ebs-product-overview": {
+    "component": "Overview"
+  },
+  "ebs-product-pricing": {
+    "component": "Pricing"
+  },
+  "ebs-size-tool-button": {
+    "component": "SizeToolButton"
+  }
+}

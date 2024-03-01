@@ -1,0 +1,20 @@
+{
+  "vendor": "eriksbikeshop",
+  "name": "pdp-24",
+  "version": "1.0.0",
+  "title": "pdp-24",
+  "description": "pdp-24 component",
+  "builders": {
+    "store": "0.x",
+    "react": "3.x"
+  },
+  "dependencies": {
+    "vtex.css-handles": "0.x",
+    "vtex.product-context": "0.x"
+  },
+  "registries": [
+    "smartcheckout"
+  ],
+  "policies": [],
+  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
+}
