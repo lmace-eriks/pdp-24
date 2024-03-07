@@ -16,6 +16,14 @@
   align-items: center;
 }
 
+.priceContainer[data-text-align="left"] {
+  justify-content: flex-start;
+}
+
+.priceContainer[data-text-align="center"] {
+  justify-content: center;
+}
+
 .listPrice {
   font-size: 75%;
   color: var(--ebs-mid-grey);
@@ -26,6 +34,7 @@
 }
 
 .sizeToolButton {
+  cursor: pointer;
   background-color: black;
   color: white;
   font-size: 0.9rem;
@@ -33,15 +42,19 @@
   font-weight: bold;
   display: grid;
   place-items: center;
+  width: 100%;
+  border: none;
+  font-family: inherit;
+  padding: 0;
   height: 2.5rem;
   border-radius: 0.25rem;
   text-decoration: none;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 
-.container {
+.accordionContainer {
   max-width: 96rem;
-  margin: 0 auto;
+  margin: 1rem auto 0 auto;
   padding: 0 0.5rem;
 }
 
@@ -77,12 +90,12 @@
 
 .section[data-active-section="true"] .window {
   height: auto;
+  padding: 0 1rem 1rem 1rem;
 }
 
 .window {
   height: 0;
   overflow: hidden;
-  padding: 0 1rem;
 }
 
 .kitCard {
@@ -147,6 +160,7 @@
 .productNumber {
   height: 1rem;
   font-size: 0.8rem;
+  margin: 0.25rem 0;
   color: var(--ebs-mid-grey);
 }
 
@@ -269,4 +283,143 @@
   background-color: var(--ebs-light-grey);
   width: 75px;
   height: 75px;
+}
+
+.sizeChartContainer {
+  display: grid;
+  place-items: center;
+}
+
+.sizeChartImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.defaultSizeChartDisclaimer {
+  margin: 0 auto;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 0 5rem;
+}
+
+.defaultSizeChartDisclaimerLink {
+  color: inherit;
+}
+
+.modalContainer {
+  padding: 2rem;
+  width: fit-content;
+  max-width: 60rem;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 0.25rem;
+  z-index: 11;
+  place-items: center;
+  gap: 1rem;
+}
+
+.modalContainer[open] {
+  display: grid;
+}
+
+.modalContainer::backdrop {
+  background-color: var(--70-dark);
+}
+
+.modalCloseButton {
+  background: black;
+  color: white;
+  font-family: inherit;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.pointTable {
+  width: 100%;
+}
+
+.pointTableBody {
+}
+
+.pointTrack {
+  display: grid;
+  grid-template-columns: 10rem 1fr 7rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--20-dark);
+}
+
+.pointTrack:last-of-type {
+  border-bottom: none;
+}
+
+.pointHead {
+  font-weight: normal;
+  text-align: left;
+}
+
+.pointMore {
+  display: flex;
+  align-items: flex-end;
+}
+
+.pointValue {
+}
+
+.valueContainer {
+}
+.valueLabel {
+}
+
+.learnMoreButton {
+  display: flex;
+  justify-content: center;
+  height: 24px;
+  margin: auto 0 0 auto;
+  width: fit-content;
+  color: #757575;
+  font-size: 0.85rem;
+  text-align: center;
+  background: transparent;
+  padding: 0.15rem;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  white-space: nowrap;
+  gap: 0.5rem;
+}
+
+.questionMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  color: #fff;
+  border-radius: 50%;
+  background-color: #757575;
+  text-decoration: none;
+  width: 20px;
+  height: 20px;
+}
+
+.learnMoreTitle {
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.starterKitImage {
+  display: block;
+}
+
+.starterKitProductName {
+  font-size: 1.15rem;
+  text-align: center;
+}
+
+.starterKitPrice {
+  text-align: center;
 }

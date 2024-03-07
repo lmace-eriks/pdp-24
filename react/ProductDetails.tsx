@@ -1,56 +1,47 @@
 import React from "react";
-
-import { PointObject, categoryDataPoints } from "./typesData";
 import { useProduct } from "vtex.product-context";
 
 import { stringTriggers } from "./PDP24";
 
+import DetailsBike from "./DetailsBike";
+import DetailsSnowboard from "./DetailsSnowboard";
+import DetailsSki from "./DetailsSki";
+
+export const removeSpaces = (value: string) => {
+    const lowerCased = value.toLowerCase();
+    const allWords = lowerCased.split(" ");
+
+    for (let index = 0; index < allWords.length; index++) {
+        const word = allWords[index];
+        if (word === "|") allWords.splice(index, 1);
+    }
+
+    const combineWithHypens = allWords.join("-");
+    const removedApostrophes = combineWithHypens.split("'").join("");
+
+    return removedApostrophes;
+}
+
+export const addSpaces = (value: string) => value.split("-").join(" - ");
+
 const ProductDetails = () => {
     const productContext = useProduct();
 
-    const productProperties = productContext?.product?.properties;
     const productCategories = productContext?.product?.categories[0];
-    if (!productCategories || !productProperties) return <></>;
+    if (!productCategories) return <></>; // TS
+
+    // Determine which (if any) <Details[sport] /> to return.
 
     const isBike = productCategories.includes(stringTriggers.bicycles);
+    if (isBike) return <DetailsBike />
+
     const isSnowboard = productCategories.includes(stringTriggers.snowboards);
+    if (isSnowboard) return <DetailsSnowboard />
+
     const isSki = productCategories.includes(stringTriggers.skis);
-    if (!isBike && isSnowboard && isSki) return <></>;
+    if (isSki) return <DetailsSki />
 
-    const productCategory = isBike ? "bicycles" : isSnowboard ? "snowboards" : isSki ? "skis" : "";
-    if (!productCategory) return <></>;
-
-    // From Product Context.
-    const fpDataPoints = productProperties.filter(item => item.name.includes(stringTriggers.productData));
-    if (!fpDataPoints) return <></>;
-
-    // Category Specific: Bike, Snowboard or Ski.
-    const csDataPoints = categoryDataPoints[productCategory as keyof PointObject];
-
-    const dataPointsToDisplay: Array<PointObject> = fpDataPoints.map(item => {
-        const tempKey = item.name as keyof PointObject;
-        const tempObject: PointObject = csDataPoints[tempKey];
-
-        return {
-            label: tempObject.label,
-            sublabel: tempObject.sublabel,
-            info: tempObject.info,
-            sortPriority: tempObject.sortPriority,
-            value: item.values[0]
-        }
-    })
-
-    if (!dataPointsToDisplay) return <></>;
-
-    return (
-        <ul>
-            {dataPointsToDisplay.map(item => (
-                <li key={item.label}>
-                    {item.label}: {item.value}
-                </li>
-            ))}
-        </ul>
-    );
+    return <></>;
 };
 
 export default ProductDetails;

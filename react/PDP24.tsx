@@ -19,6 +19,7 @@ type SectionInfoObject = {
   eriksExtras: SectionInfo,
   reviews: SectionInfo,
   technicalSpecifications: SectionInfo,
+  // sizeChart: SectionInfo,
   geometry: SectionInfo,
   bikeFinder: SectionInfo,
   similarProducts: SectionInfo
@@ -35,7 +36,9 @@ export const stringTriggers = {
   skis: "/Skis/",
   giftCards: "/Gift Cards/",
   productData: "ProductData_",
-  bikeBestUse: "ProductData_BikeBestUse"
+  bikeBestUse: "ProductData_BikeBestUse",
+  sizeChart: "Size Chart",
+  eriksExtras: "Extra"
 }
 
 // "Related Articles" is a separate VTEX native app. It will render if there is at least 1 blog post. - LM
@@ -52,6 +55,9 @@ const sectionInfo: SectionInfoObject = {
   technicalSpecifications: {
     label: "Technical Specifications"
   },
+  // sizeChart: {
+  //   label: "Size Chart"
+  // },
   geometry: {
     label: "Geometry"
   },
@@ -79,11 +85,14 @@ const PDP24 = ({ children }: PDP24Props) => {
   const setSectionRef = (element: HTMLDivElement, wrapper: number) => sections.current[wrapper] = element;
 
   // State
-  // Negative two for initial load to avoid using a useEffect(). - LM
+  // Negative two for initial load to avoid using a useEffect(). Use negative one for collapse all. - LM
   const [activeSection, setActiveSection] = useState(-2);
+
+  const isCategory = (category: string) => productCategories?.includes(category);
 
   const activateSection = (index: number, scrollTo: boolean = false) => {
     if (activeSection === index) {
+      // Negative two for initial load, negative one for collapse all.
       setActiveSection(-1);
       if (window) window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     } else {
@@ -106,12 +115,16 @@ const PDP24 = ({ children }: PDP24Props) => {
         const bikeBestUse = productProperties?.find(item => item.name === stringTriggers.bikeBestUse)?.values[0];
         return `${bikeBestUse || ""} Bicycle ${section}`;
 
+      case sectionInfo.details.label:
+        const isBike = isCategory(stringTriggers.bicycles);
+        const isSnowboard = isCategory(stringTriggers.snowboards);
+        const isSki = isCategory(stringTriggers.skis);
+        return `${isBike ? "Bike " : isSnowboard ? "Snowboard " : isSki ? "Ski " : ""}Details`;
+
       default:
         return section;
     }
   }
-
-  const isCategory = (category: string) => productCategories?.includes(category);
 
   const getApplicability = (section: string) => {
 
@@ -139,14 +152,17 @@ const PDP24 = ({ children }: PDP24Props) => {
 
       case sectionInfo.eriksExtras.label: {
         // Erik's Extras
-        const isGiftCard = isCategory(stringTriggers.giftCards);
-        return !isGiftCard;
+        const hasExtras = !!productProperties?.find(item => item.name === stringTriggers.eriksExtras);
+        if (!hasExtras) console.info(productContext?.product?.productReference);
+
+        return hasExtras;
       }
 
       case sectionInfo.geometry.label: {
         // Geometry
-        const isBike = isCategory(stringTriggers.bicycles);
-        return isBike;
+        // const isBike = isCategory(stringTriggers.bicycles);
+        // return isBike;
+        return false;
       }
 
       case sectionInfo.similarProducts.label: {
@@ -160,32 +176,34 @@ const PDP24 = ({ children }: PDP24Props) => {
     }
   }
 
-  // Runs on first load to see which section should activate.
+  // Runs if activeSection = -2 to see which section should activate.
   // This prevents us from needing a useEffect().
   const getInitialActivity = (section: string) => {
     const hasDetails = productContext?.product?.properties.some(item => item.name.includes(stringTriggers.productData));
 
-    if (section === sectionInfo.details.label) {
-      return hasDetails;
-    } else {
-      if (section === sectionInfo.technicalSpecifications.label && !hasDetails) {
-        return true;
-      }
-    }
+    switch (section) {
+      // Details
+      case sectionInfo.details.label:
+        return hasDetails;
 
-    return false;
+      // Technical Specifications
+      case sectionInfo.technicalSpecifications.label:
+        return hasDetails ? false : true;
+
+      default: return false;
+    }
   }
 
   const ReviewsApp = () => children.find((child: any) => child.props.id === "product-reviews.power-reviews");
   const SimmilarProducts = () => children.find((child: any) => child.props.id === "shelf.relatedProducts");
-  const ProductDescription = () => <div dangerouslySetInnerHTML={{ __html: productContext?.product?.description || "" }} />
+  const TechnicalSpecifications = () => <div dangerouslySetInnerHTML={{ __html: productContext?.product?.description || "" }} />
 
   return (
-    <div className={s.container}>
+    <div className={s.accordionContainer}>
       {Object.values(sectionInfo).map((section: SectionInfo, index: number) => (
         <section
           key={`section-${index}`}
-          id={`section-${index}`}
+          id={section.label === sectionInfo.reviews.label ? "all-reviews" : `section-${index}`}
           ref={(element: HTMLDivElement) => setSectionRef(element, index)}
           data-section={index}
           data-active-section={activeSection === -2 ? getInitialActivity(section.label) : activeSection === index ? "true" : "false"}
@@ -197,13 +215,13 @@ const PDP24 = ({ children }: PDP24Props) => {
             <img src="/arquivos/sm-caret.gif" width="24" height="14" className={s.caret} aria-hidden="true" alt="" />
           </button>
           <div className={s.window}>
-            {section.label === sectionInfo.details.label && <ProductDetails />}
             {section.label === sectionInfo.starterKit.label && activeSection === index && <StarterKit children={children} />}
-            {section.label === sectionInfo.technicalSpecifications.label && <ProductDescription />}
-            {section.label === sectionInfo.geometry.label && <>Geometry Section</>}
+            {section.label === sectionInfo.details.label && <ProductDetails />}
             {section.label === sectionInfo.eriksExtras.label && activeSection === index && <EriksExtras />}
-            {section.label === sectionInfo.reviews.label && activeSection === index && <ReviewsApp />}
+            {section.label === sectionInfo.technicalSpecifications.label && <TechnicalSpecifications />}
+            {section.label === sectionInfo.geometry.label && <>Geometry Section</>}
             {section.label === sectionInfo.bikeFinder.label && activeSection === index && <BikeFinder />}
+            {section.label === sectionInfo.reviews.label && activeSection === index && <ReviewsApp />}
             {section.label === sectionInfo.similarProducts.label && activeSection === index && <SimmilarProducts />}
           </div>
         </section>

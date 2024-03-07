@@ -13,6 +13,8 @@ const StarterKit = (children: ReactChildren | any) => {
 
     const productProperties = productContext?.product?.properties!;
     const bicycleBestUse = productProperties.find(item => item.name === stringTriggers.bikeBestUse)?.values[0]!;
+    console.info(bicycleBestUse);
+    console.info(starterKitsList);
     if (!bicycleBestUse) return <></>;
 
     const kitMatchIndex = starterKitsList.findIndex((item: any) => item.props.blockProps.starterKitType === bicycleBestUse);

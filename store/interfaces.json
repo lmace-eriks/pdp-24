@@ -31,5 +31,8 @@
   },
   "ebs-size-tool-button": {
     "component": "SizeToolButton"
+  },
+  "ebs-starter-kit-item": {
+    "component": "StarterKitItem"
   }
 }

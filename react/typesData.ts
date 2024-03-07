@@ -38,9 +38,9 @@ export type DataPoints = {
 export type PointObject = {
   label: string;
   sublabel?: string;
-  sortPriority?: number; // Sort order. Lower numbers are higher priority. Zero is a valid value.
+  sortPriority?: number; // Sort order. Lower numbers are higher priority. Zero is invalid.
   info?: MoreInfoObject;
-  value?: string; // Loaded from VTEX server.
+  value?: string; // Loaded from useProduct() hook.
 };
 
 export type MoreInfoObject = {
@@ -52,7 +52,7 @@ export type MoreInfoObject = {
 export const snowboardDataPoints: DataPoints = {
   ProductData_AllStyle_SB: {
     label: "All Style",
-    sortPriority: 0,
+    sortPriority: 1,
     info: {
       text:
         "<ul data-lm-list><li data-lm-list-item><b>All Mountain</b> - Ride anywhere on the resort.</li><li data-lm-list-item><b>Freeride</b> - All about carving and speed from groomed runs to fresh powder on the natural terrain of a mountain.</li><li data-lm-list-item><b>Freestyle</b> - Designed for riding on features from handrails, jumps, and half pipe in the terrain park to natural features and side hits on theresort.</li><li data-lm-list-item><b>Backcountry</b> - Ride in untracked and natural mountain terrain.</li><li data-lm-list-item><b>Powder</b> - Specifically shaped and designed to float in deep, fresh snow conditions.</li><li data-lm-list-item><b>Splitboard</b> - Used with specific bindings and skins to convert the snowboard into skis for hiking uphill to reach inaccessible slopes.</li></ul>",
@@ -80,7 +80,7 @@ export const snowboardDataPoints: DataPoints = {
   },
   ProductData_WinFlex_SB: {
     label: "Flex",
-    sortPriority: 3,
+    sortPriority: 4,
     info: {
       text:
         "<ul data-lm-list> <li data-lm-list-item><b>Soft Flex</b> - Forgiving and easier to apply pressure to while riding.</li> <li data-lm-list-item><b>Medium Flex</b> - Versatile and responsive in varying conditions and terrain.</li> <li data-lm-list-item><b>Stiff Flex</b> - Less forgiving allowing for pressure to transfer edge to edge for a quick responsive board at high speeds.</li> </ul>",
@@ -100,7 +100,7 @@ export const snowboardDataPoints: DataPoints = {
   },
   ProductData_WinProfile_SB: {
     label: "Profile",
-    sortPriority: 1,
+    sortPriority: 2,
     info: {
       text:
         "<ul data-lm-list><li data-lm-list-item><b>Camber</b> - Best for carving and maintaining control and stability at speed on groomed runs or hard-pack with a lively responsive feel.</li><li data-lm-list-item><b>Rocker</b> - Designed for quick turn initiation with a loose, surfy feel ideal for freestyle riding and fresh powder runs.</li><li data-lm-list-item><b>Flat</b> - Versatile for various riding styles with balanced maneuverability and stability.</li><li data-lm-list-item><b>Hybrid</b> - Is a combination of bends in the profile of a snowboard that change the riding characteristics for different terrains and conditions.</li></ul>",
@@ -108,7 +108,7 @@ export const snowboardDataPoints: DataPoints = {
   },
   ProductData_WinRiderLvl_SB: {
     label: "Rider Level",
-    sortPriority: 4,
+    sortPriority: 5,
     info: {
       text:
         "<ul data-lm-list> <li data-lm-list-item><b>Beginner</b> - From a first-time rider to learning the foundations of carving and stopping.</li> <li data-lm-list-item><b>Intermmediate</b> - A rider that has mastered the basics wants to explore riding different terrain or increasing speed.</li> <li data-lm-list-item><b>Advanced/Expert</b> - An experienced rider that can ride difficult terrain in any conditions.</li> </ul>",
@@ -120,7 +120,7 @@ export const snowboardDataPoints: DataPoints = {
   },
   ProductData_WinShape_SB: {
     label: "Shape",
-    sortPriority: 2,
+    sortPriority: 3,
     info: {
       text:
         "<ul data-lm-list><li data-lm-list-item><b>Twin</b> - The nose of the snowboard is the same shape and rise as the tail to ride the board in either direction and balanced freestyle riding.</li><li data-lm-list-item><b> Directional Twin</b> - The nose of the snowboard is the same shape and rise as the tail with the binding inserts set back for more surface area inthe nose and versatility when riding in different snow conditions and terrain.</li><li data-lm-list-item><b>Directional</b> - The nose is typically longer and/or wider than the tail for float in powder and downhill riding.</li></ul>",
