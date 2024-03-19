@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useProduct } from "vtex.product-context";
+import { useRuntime } from "vtex.render-runtime";
 
 import { default as s } from "./styles.css";
 
@@ -10,6 +11,9 @@ import { removeSpaces, addSpaces } from "./ProductDetails";
 
 const DetailsSnowboard = () => {
     const productContext = useProduct();
+    const { deviceInfo } = useRuntime();
+    const { isMobile } = deviceInfo;
+
     const productProperties = productContext?.product?.properties;
 
     const modalRef = useRef<HTMLDialogElement>(null);
@@ -122,13 +126,27 @@ const DetailsSnowboard = () => {
                 <tbody className={s.pointTableBody}>
                     {dataPointsToDisplay?.map((point, index) => (
                         <tr key={`track-${index}`} className={s.pointTrack}>
-                            <th scope="row" className={s.pointHead}>{point.label}:</th>
-                            <td className={s.pointValue}>
-                                <div className={s.valueContainer}>
-                                    <div className={s.valueLabel}>{labelOutput(point)}</div>
-                                    {PointIcon(point)}
-                                </div>
-                            </td>
+                            <th scope="row" className={s.pointHead}>
+                                <div className={s.pointLabel}>{point.label}:</div>
+                                {point.sublabel && <div className={s.pointSublabel}>{point.sublabel}</div>}
+                            </th>
+                            {isMobile ?
+                                <>
+                                    <td className={s.pointValueMobileText}>
+                                        <div className={s.valueLabel}>{labelOutput(point)}</div>
+                                    </td>
+                                    <td className={s.pointValueMobileIcon}>
+                                        {PointIcon(point)}
+                                    </td>
+                                </>
+                                :
+                                <td className={s.pointValue}>
+                                    <div className={s.valueContainer}>
+                                        <div className={s.valueLabel}>{labelOutput(point)}</div>
+                                        {PointIcon(point)}
+                                    </div>
+                                </td>
+                            }
                             <td className={s.pointMore}>{!!point.info?.text && <button onClick={() => handleMoreInfoClick(point)} className={s.learnMoreButton}>Learn More <span className={s.questionMark}>?</span></button>}</td>
                         </tr>
                     ))}

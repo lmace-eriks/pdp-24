@@ -35,7 +35,7 @@ const FloatCartButton = ({ children }: { children: ReactChildren | any }) => {
         if (!canUseDOM || dismissedFloat) return;
 
         // Select Add To Cart button.
-        const atcElement = document.querySelector(`#pdp-main-atc`);
+        const atcElement = document.querySelector(`#main-pdp-atc`);
         if (!atcElement) return;
 
         // Are all SKU variations selected?
@@ -74,6 +74,11 @@ const FloatCartButton = ({ children }: { children: ReactChildren | any }) => {
         setShowFloatContainer(false);
     }
 
+    if (!children[0]) {
+        console.error("App requires an add-to-cart VTEX app as a child.");
+        return <></>;
+    }
+
     const AddToCartButton = () => children[0];
 
     return (
@@ -83,7 +88,6 @@ const FloatCartButton = ({ children }: { children: ReactChildren | any }) => {
                     X
                 </button>
                 <img src={sourceString({ id: productContext?.selectedItem?.images[0].imageId || "", width: 100, height: 100, quality: 5 })} />
-                {/* Add photo of selected product */}
                 <div className={s.floatTitleAndDetails}>
                     <div className={s.floatProductTitle}>{productContext?.product?.productName}</div>
                     <div className={s.floatProductDetails}>

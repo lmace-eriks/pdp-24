@@ -1,5 +1,5 @@
 {
-  "pdp-24": {
+  "ebs-pdp-accordion": {
     "component": "PDP24",
     "composition": "children"
   },
@@ -34,5 +34,26 @@
   },
   "ebs-starter-kit-item": {
     "component": "StarterKitItem"
+  },
+  "ebs-starter-kit-image": {
+    "component": "StarterKitImage"
+  },
+  "ebs-starter-kit-price": {
+    "component": "StarterKitPrice"
+  },
+  "ebs-starter-kit-name": {
+    "component": "StarterKitName"
+  },
+  "ebs-starter-sku-selector": {
+    "component": "StarterKitSKUSelector"
+  },
+  "ebs-starter-kit-description": {
+    "component": "StarterKitDescription"
+  },
+  "ebs-collection-badge": {
+    "component": "CollectionBadge"
+  },
+  "ebs-list-context": {
+    "component": "ListContext"
   }
 }

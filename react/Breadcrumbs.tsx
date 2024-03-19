@@ -14,7 +14,7 @@ const Breadcrumbs = () => {
             {productContext?.product?.categoryTree.map((breadcrumb, index) => (
                 <li key={breadcrumb.name} className={s.breadcrumbsListItem}>
                     {index !== 0 && <span aria-hidden="true" className={s.breadcrumbsSeparator}>|</span>}
-                    <Link href={breadcrumb.href} className={s.breadcrumbsLink}>{breadcrumb.name}</Link>
+                    <Link to={breadcrumb.href} className={s.breadcrumbsLink}>{breadcrumb.name}</Link>
                 </li>
             ))}
         </ol>

@@ -2,6 +2,7 @@ import React, { ReactChildren, useRef, useState } from "react";
 import { useProduct } from 'vtex.product-context';
 
 import { default as s } from "./styles.css";
+import { parentIdStarterKits } from "./starterKitParentIdList";
 
 // Components
 import StarterKit from "./StarterKit";
@@ -90,6 +91,11 @@ const PDP24 = ({ children }: PDP24Props) => {
 
   const isCategory = (category: string) => productCategories?.includes(category);
 
+  if (!children[0]) {
+    console.error("App requires specific child apps. See PDP24.tsx for details.");
+    return <></>;
+  }
+
   const activateSection = (index: number, scrollTo: boolean = false) => {
     if (activeSection === index) {
       // Negative two for initial load, negative one for collapse all.
@@ -133,6 +139,10 @@ const PDP24 = ({ children }: PDP24Props) => {
       case sectionInfo.starterKit.label: {
         const isBike = isCategory(stringTriggers.bicycles);
         if (!isBike) return false;
+
+        const parentId = productContext?.product?.productReference.toLowerCase();
+        const specialParent = parentIdStarterKits.find(item => item.parentId.toLowerCase() === parentId);
+        if (specialParent) return true;
 
         const bikeHasBestUse = !!productProperties?.find(item => item.name === stringTriggers.bikeBestUse)?.values[0];
         return bikeHasBestUse;
@@ -210,11 +220,11 @@ const PDP24 = ({ children }: PDP24Props) => {
           data-applicable={getApplicability(section.label)}
           aria-labelledby={`section-${index}-title`}
           className={s.section}>
-          <button onClick={() => activateSection(index, true)} className={s.sectionButton}>
+          <button aria-controls={`window-${index}`} onClick={() => activateSection(index, true)} className={s.sectionButton}>
             <h2 id={`section-${index}-title`} className={s.sectionTitle}>{getTitle(section.label)}</h2>
             <img src="/arquivos/sm-caret.gif" width="24" height="14" className={s.caret} aria-hidden="true" alt="" />
           </button>
-          <div className={s.window}>
+          <div id={`window-${index}`} aria-hidden={!(activeSection === index)} className={s.window}>
             {section.label === sectionInfo.starterKit.label && activeSection === index && <StarterKit children={children} />}
             {section.label === sectionInfo.details.label && <ProductDetails />}
             {section.label === sectionInfo.eriksExtras.label && activeSection === index && <EriksExtras />}

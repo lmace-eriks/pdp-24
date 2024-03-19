@@ -131,7 +131,7 @@ export const snowboardDataPoints: DataPoints = {
 export const skiDataPoints: DataPoints = {
   ProductData_AllStyle_SK: {
     label: "All Style",
-    sortPriority: 0,
+    sortPriority: 1,
     info: {
       text:
         "<ul data-lm-list><li data-lm-list-item><b>All Mountain/On Piste</b> - Ride anywhere on the resort.</li><li data-lm-list-item><b>Freeride</b> - All about carving and speed from groomed runs to fresh powder on the natural terrain of a mountain.</li><li data-lm-list-item><b> Freestyle</b> - Designed for riding on features from handrails, jumps, and half pipe in the terrain park to natural features and side hits on theresort.</li><li data-lm-list-item><b>Backcountry</b> - Ride in untracked and natural mountain terrain.</li><li data-lm-list-item><b>Powder</b> - Specifically shaped and designed to carve and float in deep, fresh snow conditions.</li></ul>",
@@ -168,7 +168,7 @@ export const skiDataPoints: DataPoints = {
   },
   ProductData_WinProfile_SK: {
     label: "Profile",
-    sortPriority: 1,
+    sortPriority: 2,
     info: {
       text:
         "<ul data-lm-list><li data-lm-list-item><b>Camber</b> - Best for carving and maintaining control and stability at speed on groomed runs or hard-pack with a lively responsive feel.</li><li data-lm-list-item><b>Rocker</b> - Designed for quick turn initiation with a loose, surfy feel ideal for freestyle riding and fresh powder runs.</li><li data-lm-list-item><b>Flat</b> - Versatile for various riding styles with balanced maneuverability and stability.</li><li data-lm-list-item><b>Hybrid</b> - Is a combination of bends in the profile of skis that change the riding characteristics for different terrains and conditions.</li></ul>",
@@ -176,7 +176,7 @@ export const skiDataPoints: DataPoints = {
   },
   ProductData_WinRiderLvl_SK: {
     label: "Rider Level",
-    sortPriority: 2,
+    sortPriority: 3,
     info: {
       text:
         "<ul data-lm-list><li data-lm-list-item><b>Beginner</b> - From a first-time rider to learning the foundations of carving and stopping.</li> <li data-lm-list-item><b>Intermmediate</b> - A rider that has mastered the basics wants to explore riding different terrain on the resort.</li> <li data-lm-list-item><b>Advanced/Expert</b> - An experienced rider that can ride difficult terrain in any conditions.</li></ul>",
@@ -192,7 +192,7 @@ export const skiDataPoints: DataPoints = {
   },
   ProductData_WinTurnRadius_SK: {
     label: "Turn Radius",
-    sortPriority: 4,
+    sortPriority: 5,
     info: {
       text:
         "<ul data-lm-list> <li data-lm-list-item><b>Short</b> - A radius of 15 meters or less designed for quick maneuverability from edge to edge.</li> <li data-lm-list-item><b>Medium</b> - A versatile all mountain radius that falls between 15-20 meters ideal for most riders.</li> <li data-lm-list-item><b>Long</b>- A radius of 20 meters or more for aggressive, big mountain riding at high speeds.</li> </ul>",
@@ -200,7 +200,7 @@ export const skiDataPoints: DataPoints = {
   },
   ProductData_WinWaistWidth_SK: {
     label: "Waist Width",
-    sortPriority: 3,
+    sortPriority: 4,
     info: {
       text:
         "<p data-lm-text> Waist width refers to how wide the ski is at the narrowest section of the ski. A wider waist width is a larger platform for floating in deep powder conditions, and a narrow waist is more agile on hardpack. </p>",

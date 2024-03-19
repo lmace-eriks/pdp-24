@@ -14,9 +14,11 @@ const SizeToolButton = () => {
 
     const isCategory = (category: string) => productCategories?.includes(category);
 
+    const BlankSpace = () => <div data-size-tool-space style={{ height: "0.5rem" }} />
+
     // Bikes only.
     const isBike = isCategory(stringTriggers.bicycles);
-    if (!isBike) return <></>;
+    if (!isBike) return <BlankSpace />;
 
     const sizeChartHTML = productProperties?.find(item => item.name === stringTriggers.sizeChart)?.values[0];
 
@@ -24,9 +26,8 @@ const SizeToolButton = () => {
     fakeDiv.innerHTML = sizeChartHTML || "";
 
     const sizeChartImageElement: HTMLImageElement | null = fakeDiv.querySelector(".vtex-size-chart-image");
-    if (!sizeChartImageElement) return <></>;
 
-    const sizeChartImageSource = sizeChartImageElement.src;
+    const sizeChartImageSource = sizeChartImageElement?.src;
 
     const handleSizeToolClick = () => {
         modalRef.current?.showModal();

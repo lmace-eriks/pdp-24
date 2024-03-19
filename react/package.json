@@ -13,10 +13,12 @@
     "@types/react": "^16.9.31",
     "@vtex/test-tools": "^3.3.2",
     "@vtex/tsconfig": "^0.4.4",
-    "eriksbikeshop.pdp-24": "https://ebs24--eriksbikeshop.myvtex.com/_v/private/typings/linked/v1/eriksbikeshop.pdp-24@1.0.0+build1706907691/public/@types/eriksbikeshop.pdp-24",
+    "eriksbikeshop.pdp-24": "https://ebs2403--eriksbikeshop.myvtex.com/_v/private/typings/linked/v1/eriksbikeshop.pdp-24@1.0.1+build1710521970/public/@types/eriksbikeshop.pdp-24",
     "typescript": "3.9.7",
     "vtex.css-handles": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.css-handles@0.4.4/public/@types/vtex.css-handles",
+    "vtex.list-context": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.list-context@0.2.0/public/@types/vtex.list-context",
     "vtex.product-context": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.product-context@0.10.1/public/@types/vtex.product-context",
+    "vtex.product-summary-context": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.product-summary-context@0.12.0/public/@types/vtex.product-summary-context",
     "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.134.2/public/@types/vtex.render-runtime"
   },
   "resolutions": {

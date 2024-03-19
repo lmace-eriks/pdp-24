@@ -49,13 +49,20 @@
   height: 2.5rem;
   border-radius: 0.25rem;
   text-decoration: none;
-  margin: 1rem 0;
+  margin: 0.5rem 0;
 }
 
 .accordionContainer {
   max-width: 96rem;
   margin: 1rem auto 0 auto;
   padding: 0 0.5rem;
+}
+
+/* Mobile Rules - LM */
+@media (max-width: 1025px) {
+  .accordionContainer {
+    padding: 0;
+  }
 }
 
 .section {
@@ -91,6 +98,14 @@
 .section[data-active-section="true"] .window {
   height: auto;
   padding: 0 1rem 1rem 1rem;
+}
+
+/* Mobile Rules - LM */
+@media (max-width: 1025px) {
+  .section[data-active-section="true"] .window {
+    height: auto;
+    padding: 0 0 1rem 0;
+  }
 }
 
 .window {
@@ -189,9 +204,11 @@
   background-color: var(--ebs-light-grey);
   padding: 1rem;
   border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .floatContainer {
+  pointer-events: none;
   position: fixed;
   inset: auto 0 1rem 0;
   z-index: 2;
@@ -209,6 +226,7 @@
 }
 
 .floatWrapper {
+  pointer-events: all;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -271,6 +289,7 @@
 }
 
 .lowResLCP {
+  object-fit: contain;
 }
 
 .skeletonThumbnailsContainer {
@@ -323,6 +342,11 @@
   display: grid;
 }
 
+.modalContainer [data-lm-list] {
+  padding: 0;
+  margin: 0;
+}
+
 .modalContainer::backdrop {
   background-color: var(--70-dark);
 }
@@ -348,7 +372,7 @@
 .pointTrack {
   display: grid;
   grid-template-columns: 10rem 1fr 7rem;
-  padding: 0.5rem;
+  padding: 0.5rem 0;
   border-bottom: 1px solid var(--20-dark);
 }
 
@@ -356,9 +380,18 @@
   border-bottom: none;
 }
 
+/* Mobile Rules - LM */
+@media (max-width: 1025px) {
+  .pointTrack {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
 .pointHead {
   font-weight: normal;
   text-align: left;
+  padding: 0;
 }
 
 .pointMore {
@@ -366,12 +399,41 @@
   align-items: flex-end;
 }
 
+/* Mobile Rules - LM */
+@media (max-width: 1025px) {
+  .pointMore {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
 .pointValue {
+  padding: 0;
+}
+
+.pointValueMobileText {
+  padding: 0 0 0 4px;
+}
+
+.pointValueMobileIcon {
 }
 
 .valueContainer {
 }
+
 .valueLabel {
+}
+
+.pointIcon {
+  display: block;
+}
+
+/* Mobile Rules - LM */
+@media (max-width: 1025px) {
+  .pointIcon {
+    width: 100%;
+    height: auto;
+  }
 }
 
 .learnMoreButton {
@@ -405,10 +467,24 @@
   height: 20px;
 }
 
+/* Mobile Rules - LM */
+@media (max-width: 1025px) {
+  .questionMark {
+    display: none;
+  }
+}
+
 .learnMoreTitle {
   font-weight: bold;
   font-size: 1.5rem;
   text-align: center;
+}
+
+.listContextProvider {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .starterKitImage {
@@ -420,6 +496,92 @@
   text-align: center;
 }
 
-.starterKitPrice {
+.starterKitPriceContainer {
+}
+
+.starterKitSellingPrice {
+  font-size: 1.25rem;
   text-align: center;
+}
+
+.starterKitlistPrice {
+  font-size: 0.95rem;
+  text-align: center;
+  color: var(--ebs-mid-grey);
+  margin-top: 0.25rem;
+}
+
+.pointLabel {
+  white-space: nowrap;
+}
+
+.pointSublabel {
+  font-size: 90%;
+}
+
+.starterKitSKUList {
+  width: 100%;
+}
+
+.skuLabel {
+  --selectWidth: 10rem;
+  display: block;
+  width: var(--selectWidth);
+  margin: 0 auto 0.75rem auto;
+}
+
+.skuLabelText {
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.skuSelect {
+  font-size: 0.9rem;
+  width: var(--selectWidth);
+}
+
+.skuOption {
+}
+
+.startKitDescriptionBoxContainer {
+}
+
+.startKitDescriptionBox {
+  position: absolute;
+  inset: 0;
+  background-color: white;
+  padding: 0.25rem;
+}
+
+.startKitDescriptionContainer {
+  height: 80%;
+}
+
+.closeButtonContainer {
+  padding-top: 0.5rem;
+  height: 20%;
+}
+
+.startKitDescriptionWrapper {
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.descriptionButton {
+  background: var(--ebs-light-grey);
+  border-radius: 0.15rem;
+  padding: 0.15rem 0.5rem;
+  border: none;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: black;
+  border: 1px solid var(--20-dark);
+}
+
+.collectionBadge {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 1rem;
 }
