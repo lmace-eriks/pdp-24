@@ -46,37 +46,41 @@ const shippingPromoCollections: Array<ShippingCollectionObject> = [
     {
         id: "317",
         label: chargeFreightText
+    },
+    {
+        id: "394",
+        label: inStoreOnlyText
     }
 ];
 
 const ShippingPromo = () => {
     const productContext = useProduct();
     const productClusters = productContext?.product?.productClusters;
-    const productProperties = productContext?.product?.properties;
-
-    const chargeFreight = productClusters?.some(item => item.id === "317");
 
     // Check for inStoreOnly first.
-    const promoText = productProperties?.find(prop => prop.name === "PDP-Promo")?.values[0];
-    const inStoreOnly = promoText?.includes(inStoreOnlyText);
+    const inStoreOnly = productClusters?.some(item => item.id === "394");
+
+    // Render "In Store Only" Text.
+    if (inStoreOnly) return (
+        <div className={s.shippingPromo} data-promo-type="in-store-only">
+            <div className={s.shippingPromoLabel}>{inStoreOnlyText}</div>
+        </div>
+    )
+
+    const chargeFreight = productClusters?.some(item => item.id === "317");
 
     // Search for any id inside shippingPromoCollections.
     const validShippingPromo = shippingPromoCollections.find(shipId => {
         return productClusters?.find(item => item.id === shipId.id);
     });
 
+    if (!validShippingPromo) return <></>;
+
     // Erik thinks these two collections are too low of a flat rate to display the promo. - LM 03/01/2024
     const hideFlatRate = validShippingPromo?.id === "207" || validShippingPromo?.id === "208";
 
     const ChargeFreightElement = () => <div className={s.chargeFreight}>{chargeFreightText}</div>;
     const FreeShippingThresholdElement = () => <div className={s.freeShippingThreshold}>{freeShippingOverThresholdText}</div>;
-
-    // Render "In Store" Text.
-    if (inStoreOnly) return (
-        <div className={s.shippingPromo} data-promo-type="in-store-only">
-            <div className={s.shippingPromoLabel}>{inStoreOnlyText}</div>
-        </div>
-    )
 
     // Render Free Shipping Over Threshold, without flat rate.
     if (hideFlatRate && validShippingPromo && !chargeFreight) return (
@@ -94,26 +98,11 @@ const ShippingPromo = () => {
     )
 
     // Render Free Shipping.
-    if (!promoText && !chargeFreight) return (
+    if (!chargeFreight) return (
         <div className={s.shippingPromo} data-promo-type="no-freight-no-promo">
             <FreeShippingThresholdElement />
         </div>
     );
-
-    if (promoText) {
-        // Strip HTML
-        const fakeDiv = document.createElement("div");
-        fakeDiv.innerHTML = promoText;
-        const outputPromo = fakeDiv.innerText;
-
-        // Render Promo Text
-        return (
-            <div className={s.shippingPromo} data-promo-type={`text-promo-${chargeFreight ? "freight" : "no-freight"}`}>
-                <div className={s.shippingPromoLabel}>{outputPromo}</div>
-                {chargeFreight ? <ChargeFreightElement /> : <FreeShippingThresholdElement />}
-            </div>
-        )
-    }
 
     return <></>;
 }
