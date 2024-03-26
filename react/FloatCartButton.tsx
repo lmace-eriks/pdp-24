@@ -87,7 +87,7 @@ const FloatCartButton = ({ children }: { children: ReactChildren | any }) => {
                 <button onClick={handleCloseFloatClick} title="Close Add To Cart Window" className={s.floatClose}>
                     X
                 </button>
-                <img src={sourceString({ id: productContext?.selectedItem?.images[0].imageId || "", width: 100, height: 100, quality: 5 })} />
+                <img src={sourceString({ id: productContext?.selectedItem?.images[0].imageId || "", width: 100, height: 100, quality: 5 })} width={100} height={100} />
                 <div className={s.floatTitleAndDetails}>
                     <div className={s.floatProductTitle}>{productContext?.product?.productName}</div>
                     <div className={s.floatProductDetails}>

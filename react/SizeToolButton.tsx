@@ -64,8 +64,8 @@ const SizeToolButton = () => {
                             <div className={s.defaultSizeChartDisclaimer}>This is our general size chart. Some manufacurers do not provide size charts for some of their bicycles and this chart is a good starting point for finding your fit. Please keep in mind that it is possible for a rider to fit multiple sizes of bicycles comfortably. For more information, please visit our <a href="/bike-sizing" target="_blank" rel="noreferrer" className={s.defaultSizeChartDisclaimerLink} style={{ whiteSpace: "nowrap" }}>Bike Sizing Guide</a>.</div>
                         </>
                     }
+                    <button aria-label="Close Dialog." onClick={handleCloseModal} className={s.modalCloseButton}>Close Size Chart</button>
                 </div>
-                <button aria-label="Close Dialog." onClick={handleCloseModal} className={s.modalCloseButton}>Close Size Chart</button>
             </dialog>
         </>
     )

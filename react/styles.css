@@ -1,279 +1,113 @@
-[data-flex-vc] {
-  display: flex;
-  align-items: center;
-}
-
-[data-flex-hc] {
-  display: flex;
-  justify-content: center;
+.pointTrack:last-of-type {
+  border-bottom: none;
 }
 
 .priceContainer {
-  font-size: 1.75rem;
-  display: flex;
-  gap: 1rem;
-  height: 2.5rem;
-  align-items: center;
-}
-
-.priceContainer[data-text-align="left"] {
-  justify-content: flex-start;
-}
-
-.priceContainer[data-text-align="center"] {
-  justify-content: center;
 }
 
 .listPrice {
-  font-size: 75%;
-  color: var(--ebs-mid-grey);
-  opacity: 0.65;
 }
 
 .sellingPrice {
 }
 
 .sizeToolButton {
-  cursor: pointer;
-  background-color: black;
-  color: white;
-  font-size: 0.9rem;
-  text-align: center;
-  font-weight: bold;
-  display: grid;
-  place-items: center;
-  width: 100%;
-  border: none;
-  font-family: inherit;
-  padding: 0;
-  height: 2.5rem;
-  border-radius: 0.25rem;
-  text-decoration: none;
-  margin: 0.5rem 0;
 }
 
 .accordionContainer {
-  max-width: 96rem;
-  margin: 1rem auto 0 auto;
-  padding: 0 0.5rem;
 }
 
-/* Mobile Rules - LM */
-@media (max-width: 1025px) {
-  .accordionContainer {
-    padding: 0;
-  }
+.accordionContainer {
 }
 
 .section {
-  border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .sectionButton {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 2.75rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  font-family: inherit;
-  color: inherit;
 }
 
 .caret {
-  transition: transform 500ms ease;
-}
-
-[data-active-section="false"] .caret {
-  transform: rotate(180deg);
 }
 
 .sectionTitle {
-  margin: 0;
-}
-
-.section[data-active-section="true"] .window {
-  height: auto;
-  padding: 0 1rem 1rem 1rem;
-}
-
-/* Mobile Rules - LM */
-@media (max-width: 1025px) {
-  .section[data-active-section="true"] .window {
-    height: auto;
-    padding: 0 0 1rem 0;
-  }
 }
 
 .window {
-  height: 0;
-  overflow: hidden;
+}
+
+.technicalSpecs {
 }
 
 .kitCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .productName {
-  font-weight: normal;
-  margin: 0;
 }
 
 .shippingPromo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  height: 3rem;
-  background-color: var(--ebs-light-grey);
-  border-radius: 0.25rem;
-  color: black;
-  margin: 0.5rem 0;
 }
 
 .shippingPromoLabel {
-  font-size: 0.9rem;
-  font-weight: bold;
 }
 
-.chargeFreight,
+.chargeFreight {
+}
+
 .freeShippingThreshold {
-  font-size: 0.85rem;
 }
 
 .breadcrumbsNav {
-  height: 1.75rem;
-  font-size: 0.9rem;
-  --breadcrumb-gap: 0.75rem;
 }
 
 .breadcrumbsList {
-  list-style: none;
-  height: 100%;
-  gap: var(--breadcrumb-gap);
-  margin: 0;
-  padding: 0;
 }
 
 .breadcrumbsListItem {
 }
 
 .breadcrumbsLink {
-  color: inherit;
 }
 
 .breadcrumbsSeparator {
-  margin-right: var(--breadcrumb-gap);
 }
 
 .productNumber {
-  height: 1rem;
-  font-size: 0.8rem;
-  margin: 0.25rem 0;
-  color: var(--ebs-mid-grey);
 }
 
 .bikeFinderContainer {
-  display: flex;
-  gap: 1rem;
 }
 
 .finderLink {
-  display: block;
+}
+
+.bikeFinderImage {
 }
 
 .productOverview {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 8rem;
-  padding: 2rem;
-  margin: 1rem 0;
-  background-color: var(--ebs-light-grey);
-}
-
-.section[data-active-section="true"] .window:empty {
-  height: 17.5rem;
-  background-color: var(--ebs-light-grey);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  margin-bottom: 0.5rem;
 }
 
 .floatContainer {
-  pointer-events: none;
-  position: fixed;
-  inset: auto 0 1rem 0;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-
-  transition-property: opacity, transform;
-  transition-duration: 300ms;
-  transition-timing-function: ease-out;
-}
-
-.floatContainer[data-inactive="true"] {
-  opacity: 0;
-  transform: translateY(150%);
 }
 
 .floatWrapper {
-  pointer-events: all;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-  background-color: white;
-  border: 1px solid black;
-  padding: 0.5rem 3rem;
-  position: relative;
 }
 
 .floatClose {
-  position: absolute;
-  inset: 0.25rem 0.25rem auto auto;
-  font-family: inherit;
-  line-height: 0;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  background-color: transparent;
-  border: 1px solid var(--30-dark);
-  color: var(--70-dark);
-  font-size: 0.9rem;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
 }
 
 .floatTitleAndDetails {
 }
 
 .floatProductTitle {
-  white-space: nowrap;
-  font-size: 1.25rem;
 }
 
 .floatProductDetails {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  white-space: nowrap;
 }
 
 .floatDetailItem {
 }
 
 .floatDetailName {
-  font-size: 0.8rem;
 }
 
 .floatDetailValue {
@@ -283,136 +117,63 @@
 }
 
 .lowResLCPContainer {
-  display: grid;
-  place-items: center;
-  height: 600px;
 }
 
 .lowResLCP {
-  object-fit: contain;
 }
 
 .skeletonThumbnailsContainer {
-  display: flex;
-  gap: 1rem;
 }
 
 .skeletonThumbnail {
-  border-radius: 0.25rem;
-  background-color: var(--ebs-light-grey);
-  width: 75px;
-  height: 75px;
 }
 
 .sizeChartContainer {
-  display: grid;
-  place-items: center;
 }
 
 .sizeChartImage {
-  display: block;
-  width: 100%;
-  height: auto;
 }
 
 .defaultSizeChartDisclaimer {
-  margin: 0 auto;
-  font-size: 0.9rem;
-  text-align: center;
-  padding: 0 5rem;
 }
 
 .defaultSizeChartDisclaimerLink {
-  color: inherit;
 }
 
 .modalContainer {
-  padding: 2rem;
-  width: fit-content;
-  max-width: 60rem;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 0.25rem;
-  z-index: 11;
-  place-items: center;
-  gap: 1rem;
 }
 
-.modalContainer[open] {
-  display: grid;
-}
-
-.modalContainer [data-lm-list] {
-  padding: 0;
-  margin: 0;
+.modalContent {
 }
 
 .modalContainer::backdrop {
-  background-color: var(--70-dark);
 }
 
 .modalCloseButton {
-  background: black;
-  color: white;
-  font-family: inherit;
-  border: none;
-  border-radius: 0.25rem;
-  padding: 0.5rem 0.75rem;
-  font-weight: bold;
-  font-size: 0.9rem;
 }
 
 .pointTable {
-  width: 100%;
 }
 
 .pointTableBody {
 }
 
 .pointTrack {
-  display: grid;
-  grid-template-columns: 10rem 1fr 7rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--20-dark);
 }
 
 .pointTrack:last-of-type {
-  border-bottom: none;
-}
-
-/* Mobile Rules - LM */
-@media (max-width: 1025px) {
-  .pointTrack {
-    display: flex;
-    flex-wrap: wrap;
-  }
 }
 
 .pointHead {
-  font-weight: normal;
-  text-align: left;
-  padding: 0;
 }
 
 .pointMore {
-  display: flex;
-  align-items: flex-end;
-}
-
-/* Mobile Rules - LM */
-@media (max-width: 1025px) {
-  .pointMore {
-    width: 100%;
-    justify-content: flex-end;
-  }
 }
 
 .pointValue {
-  padding: 0;
 }
 
 .pointValueMobileText {
-  padding: 0 0 0 4px;
 }
 
 .pointValueMobileIcon {
@@ -425,119 +186,51 @@
 }
 
 .pointIcon {
-  display: block;
-}
-
-/* Mobile Rules - LM */
-@media (max-width: 1025px) {
-  .pointIcon {
-    width: 100%;
-    height: auto;
-  }
 }
 
 .learnMoreButton {
-  display: flex;
-  justify-content: center;
-  height: 24px;
-  margin: auto 0 0 auto;
-  width: fit-content;
-  color: #757575;
-  font-size: 0.85rem;
-  text-align: center;
-  background: transparent;
-  padding: 0.15rem;
-  border: none;
-  text-decoration: underline;
-  cursor: pointer;
-  white-space: nowrap;
-  gap: 0.5rem;
 }
 
 .questionMark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 0;
-  color: #fff;
-  border-radius: 50%;
-  background-color: #757575;
-  text-decoration: none;
-  width: 20px;
-  height: 20px;
-}
-
-/* Mobile Rules - LM */
-@media (max-width: 1025px) {
-  .questionMark {
-    display: none;
-  }
 }
 
 .learnMoreTitle {
-  font-weight: bold;
-  font-size: 1.5rem;
-  text-align: center;
 }
 
 .listContextProvider {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
 }
 
 .starterKitImage {
-  display: block;
 }
 
 .starterKitProductName {
-  font-size: 1.15rem;
-  text-align: center;
 }
 
 .starterKitPriceContainer {
 }
 
 .starterKitSellingPrice {
-  font-size: 1.25rem;
-  text-align: center;
 }
 
 .starterKitlistPrice {
-  font-size: 0.95rem;
-  text-align: center;
-  color: var(--ebs-mid-grey);
-  margin-top: 0.25rem;
 }
 
 .pointLabel {
-  white-space: nowrap;
 }
 
 .pointSublabel {
-  font-size: 90%;
 }
 
 .starterKitSKUList {
-  width: 100%;
 }
 
 .skuLabel {
-  --selectWidth: 10rem;
-  display: block;
-  width: var(--selectWidth);
-  margin: 0 auto 0.75rem auto;
 }
 
 .skuLabelText {
-  font-size: 0.85rem;
-  text-align: left;
 }
 
 .skuSelect {
-  font-size: 0.9rem;
-  width: var(--selectWidth);
 }
 
 .skuOption {
@@ -547,41 +240,19 @@
 }
 
 .startKitDescriptionBox {
-  position: absolute;
-  inset: 0;
-  background-color: white;
-  padding: 0.25rem;
 }
 
 .startKitDescriptionContainer {
-  height: 80%;
 }
 
 .closeButtonContainer {
-  padding-top: 0.5rem;
-  height: 20%;
 }
 
 .startKitDescriptionWrapper {
-  height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 .descriptionButton {
-  background: var(--ebs-light-grey);
-  border-radius: 0.15rem;
-  padding: 0.15rem 0.5rem;
-  border: none;
-  font-size: 0.9rem;
-  font-family: inherit;
-  color: black;
-  border: 1px solid var(--20-dark);
 }
 
 .collectionBadge {
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 1rem;
 }

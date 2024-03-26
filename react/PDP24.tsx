@@ -137,6 +137,9 @@ const PDP24 = ({ children }: PDP24Props) => {
     switch (section) {
       // Starter Kit
       case sectionInfo.starterKit.label: {
+        // Section not ready to publish yet.
+        return false;
+
         const isBike = isCategory(stringTriggers.bicycles);
         if (!isBike) return false;
 
@@ -149,6 +152,10 @@ const PDP24 = ({ children }: PDP24Props) => {
       }
 
       case sectionInfo.details.label: {
+        // Cycling details card not ready to publish yet.
+        const isCycling = isCategory(stringTriggers.cycling);
+        if (isCycling) return false;
+
         // Details
         const hasDetails = productProperties?.some(item => item.name.includes(stringTriggers.productData));
         return hasDetails;
@@ -190,15 +197,23 @@ const PDP24 = ({ children }: PDP24Props) => {
   // This prevents us from needing a useEffect().
   const getInitialActivity = (section: string) => {
     const hasDetails = productContext?.product?.properties.some(item => item.name.includes(stringTriggers.productData));
+    const isCycling = isCategory(stringTriggers.cycling);
 
     switch (section) {
       // Details
-      case sectionInfo.details.label:
+      case sectionInfo.details.label: {
+        if (isCycling) return false; // Cycling details card not ready to publish yet.
         return hasDetails;
+      }
 
       // Technical Specifications
-      case sectionInfo.technicalSpecifications.label:
-        return hasDetails ? false : true;
+      case sectionInfo.technicalSpecifications.label: {
+        if (isCycling) {
+          return true; // Cycling details card not ready to publish yet.
+        } else {
+          return hasDetails ? false : true;
+        }
+      }
 
       default: return false;
     }
@@ -206,7 +221,7 @@ const PDP24 = ({ children }: PDP24Props) => {
 
   const ReviewsApp = () => children.find((child: any) => child.props.id === "product-reviews.power-reviews");
   const SimmilarProducts = () => children.find((child: any) => child.props.id === "shelf.relatedProducts");
-  const TechnicalSpecifications = () => <div dangerouslySetInnerHTML={{ __html: productContext?.product?.description || "" }} />
+  const TechnicalSpecifications = () => <div dangerouslySetInnerHTML={{ __html: productContext?.product?.description || "" }} className={s.technicalSpecs} />
 
   return (
     <div className={s.accordionContainer}>

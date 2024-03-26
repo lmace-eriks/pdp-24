@@ -1,6 +1,6 @@
 import React, { ReactChildren, useEffect, useState } from "react";
 import { useProduct } from 'vtex.product-context';
-import { Helmet, canUseDOM } from 'vtex.render-runtime';
+import { Helmet, canUseDOM, useRuntime } from 'vtex.render-runtime';
 
 import { default as s } from "./styles.css";
 
@@ -15,17 +15,12 @@ const sourceString = (imageParameters: ImageSourceObject) =>
 
 const ProductMainImage = ({ children }: { children: ReactChildren | any }) => {
     const productContext = useProduct();
-    const [mainProductSrc, setMainProductSrc] = useState("");
+    const { deviceInfo: { isMobile } } = useRuntime();
+
     const [displayChildren, setDisplayChildren] = useState(false);
 
-    useEffect(() => {
-        if (displayChildren) return;
-
-        const firstImageId = productContext?.selectedItem?.images[0].imageId;
-        const lowQualityFirstImageSrc = sourceString({ id: firstImageId || "", quality: 1 });
-
-        setMainProductSrc(lowQualityFirstImageSrc);
-    });
+    const firstImageId = productContext?.selectedItem?.images[0].imageId;
+    const lowQualityFirstImageSrc = sourceString({ id: firstImageId || "", quality: 1 });
 
     useEffect(() => {
         if (!canUseDOM || displayChildren) return;
@@ -35,6 +30,17 @@ const ProductMainImage = ({ children }: { children: ReactChildren | any }) => {
 
         return () => skuSelector?.removeEventListener("mouseover", handleSKUHover);
     })
+
+    useEffect(() => {
+        if (!canUseDOM || displayChildren) return;
+
+        window.addEventListener("touchstart", handleTouch);
+        return () => window.removeEventListener("touchstart", handleTouch);
+    })
+
+    const handleTouch = () => {
+        setDisplayChildren(true);
+    }
 
     const handleSKUHover = () => {
         setDisplayChildren(true);
@@ -54,19 +60,21 @@ const ProductMainImage = ({ children }: { children: ReactChildren | any }) => {
         <>
             {/* @ts-expect-error TS does not recognise <Helmet /> */}
             <Helmet>
-                <link rel="preload" as="image" href={mainProductSrc} />
+                <link rel="preload" as="image" href={lowQualityFirstImageSrc} />
             </Helmet>
 
             <div className={s.mainImageContainer} onMouseEnter={flipToChildren}>
                 <div className={s.lowResLCPContainer}>
-                    {/* @ts-expect-error TS does not recognise fetchpriority */}
-                    <img src={mainProductSrc} loading="eager" fetchpriority="high" width={pdpImageWidth} height={pdpImageHeight} className={s.lowResLCP} />
+                    {/* @ts-expect-error TS does not recognise fetchPriority */}
+                    <img src={lowQualityFirstImageSrc} loading="eager" fetchPriority="high" width={pdpImageWidth} height={pdpImageHeight} className={s.lowResLCP} />
                 </div>
-                <div className={s.skeletonThumbnailsContainer}>
-                    <div className={s.skeletonThumbnail} />
-                    <div className={s.skeletonThumbnail} />
-                    <div className={s.skeletonThumbnail} />
-                </div>
+                {!isMobile &&
+                    <div className={s.skeletonThumbnailsContainer}>
+                        <div className={s.skeletonThumbnail} />
+                        <div className={s.skeletonThumbnail} />
+                        <div className={s.skeletonThumbnail} />
+                    </div>
+                }
             </div>
         </>
     );

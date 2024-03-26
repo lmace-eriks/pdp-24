@@ -93,7 +93,7 @@ const ShippingPromo = () => {
     if (validShippingPromo) return (
         <div className={s.shippingPromo} data-promo-type={`collection-id-${validShippingPromo.id}`} data-charge-freight={chargeFreight}>
             <div className={s.shippingPromoLabel}>{validShippingPromo.label}</div>
-            {chargeFreight ? <ChargeFreightElement /> : validShippingPromo.id !== "206" && <FreeShippingThresholdElement />}
+            {(chargeFreight && validShippingPromo.id !== "317") ? <ChargeFreightElement /> : validShippingPromo.id !== "206" && <FreeShippingThresholdElement />}
         </div>
     )
 

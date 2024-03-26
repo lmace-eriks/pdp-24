@@ -139,9 +139,11 @@ const DetailsBike = () => {
                 <tfoot></tfoot>
             </table>
             <dialog ref={modalRef} aria-label="Learn More" className={s.modalContainer} onClick={handleClickBackground}>
-                <div className={s.learnMoreTitle}>{learnMore?.title}</div>
-                <div dangerouslySetInnerHTML={{ __html: learnMore?.text || "" }} />
-                <button aria-label="Close Dialog." onClick={handleCloseModal} className={s.modalCloseButton}>Close Size Chart</button>
+                <div className={s.modalContent}>
+                    <div className={s.learnMoreTitle}>{learnMore?.title}</div>
+                    <div dangerouslySetInnerHTML={{ __html: learnMore?.text || "" }} />
+                    <button aria-label="Close Dialog." onClick={handleCloseModal} className={s.modalCloseButton}>Close</button>
+                </div>
             </dialog>
         </>
     );
