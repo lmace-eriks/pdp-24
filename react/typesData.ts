@@ -1,3 +1,22 @@
+export type PointObject = {
+  label: string;
+  sublabel?: string;
+  sortPriority?: number; // Sort order. Lower numbers are higher priority. Zero is invalid. Decimals are valid.
+  info?: MoreInfoObject;
+  value?: string; // Loaded from useProduct() hook.
+};
+
+export type MoreInfoObject = {
+  title?: string;
+  text?: string;
+  image?: string;
+  roadText?: string;
+  mountainText?: string;
+  electricText?: string;
+  recText?: string;
+  specialtyText?: string;
+};
+
 export type DataPoints = {
   // Snowboard
   ProductData_AllStyle_SB?: PointObject;
@@ -26,6 +45,26 @@ export type DataPoints = {
   ProductData_Gender_SK?: PointObject;
 
   // Bike
+  ProductData_BikeEbikeBattery?: PointObject;
+  ProductData_BikeAllMaterial?: PointObject;
+  ProductData_BikeAllWhlSize?: PointObject;
+  ProductData_BikeEbikeTopSpeed?: PointObject;
+  ProductData_BikeEbikeRange?: PointObject;
+  ProductData_BikeEbikeMotorWatt?: PointObject;
+  ProductData_BikeAllElecShift?: PointObject;
+  ProductData_BikeAllNumberOfGears?: PointObject;
+  ProductData_BikeEbikeClass?: PointObject;
+  ProductData_BikeEbikeThrottle?: PointObject;
+  ProductData_BikeRecIntendedUse?: PointObject;
+  ProductData_BikeRecSpecIntendedSurface?: PointObject;
+  ProductData_BikeMtbIntendedUse?: PointObject;
+  ProductData_BikeMtbFrontSusp?: PointObject;
+  ProductData_BikeMtbRearSusp?: PointObject;
+  ProductData_BikeSpecEAssist?: PointObject;
+  ProductData_BikeSpecType?: PointObject;
+  ProductData_BikeRoadIntendedUse?: PointObject;
+  ProductData_BikeRoadTireSize?: PointObject;
+  //
   ProductData_AllStyle_Bike?: PointObject;
   ProductData_BikeBestUse?: PointObject;
   ProductData_BikeMaterial?: PointObject;
@@ -35,18 +74,167 @@ export type DataPoints = {
   ProductData_BikeHandlebar?: PointObject;
 };
 
-export type PointObject = {
-  label: string;
-  sublabel?: string;
-  sortPriority?: number; // Sort order. Lower numbers are higher priority. Zero is invalid.
-  info?: MoreInfoObject;
-  value?: string; // Loaded from useProduct() hook.
-};
-
-export type MoreInfoObject = {
-  title?: string;
-  text?: string;
-  image?: string;
+export const bikeDataPoints: DataPoints = {
+  ProductData_BikeRoadIntendedUse: {
+    label: "Intended Use",
+    sortPriority: 1,
+    info: {
+      text:
+        "<ul data-lm-list><li data-lm-list-item><b>Endurance</b> - Endurance bikes prioritize comfort and the ability to travel long distances, on pavement.</li><li data-lm-list-item><b>Performance</b> - The ultimate speed, performance, and efficiency on paved surfaces.</li><li data-lm-list-item><b>Gravel Adventure</b> - Gravel bikes include wider tires made for riding off pavement on dirt roads or other hardpack. Gravel Adventure bikes focus on comfort and longevity in the saddle. They may also include additional mounting points for bags, racks, fenders, etc.</li><li data-lm-list-item><b>Gravel Race</b> - These bikes still include wider tires than road bikes and focus on the best off-pavement performance.</li></ul>",
+    },
+  },
+  ProductData_BikeRoadTireSize: {
+    label: "Tire Size",
+    sortPriority: 2.5,
+    info: {
+      text: "<p data-lm-text>Wider tires offer greater grip and comfort. Skinnier tires have much less rolling resistance for added speed and efficiency.</p>",
+    },
+  },
+  ProductData_BikeSpecType: {
+    label: "Bike Type",
+    sortPriority: 1,
+    info: {
+      text:
+        "<ul data-lm-list><li data-lm-list-item><b>Recumbent</b> - A type of bike or trike that that has a backrest and large seat. Great for people with certain leg and back problems or that want the maximum comfort!</li><li data-lm-list-item><b>Trike</b> - Trikes have two wheels connected by an axle in the rear and a normal front wheel. They often come with baskets in the rear to haul groceries, work supplies, or anything else that will fit!</li><li data-lm-list-item><b>Tandem</b> - A bicycle built for two! Tandem bicycles have two seats and two sets of pedals. The front person controls steering and shifting while both people pedal to move forward.</li></ul>",
+    },
+  },
+  ProductData_BikeSpecEAssist: {
+    label: "Electric Assist",
+    sortPriority: 2,
+    info: {
+      text:
+        "<p data-lm-text>Like with traditional bikes, specialty bikes can also be augmented with a motor to assist on hills, ride farther, have more fun, or all of the above!</p>",
+    },
+  },
+  ProductData_BikeMtbIntendedUse: {
+    label: "Intended Use",
+    sortPriority: 2,
+    info: {
+      text:
+        "<ul data-lm-list><li data-lm-list-item><b>Trail</b> - Trail bikes strike a great balance between travel length and gearing to give a well-rounded experience for both climbing and descending; giving a great ride at almost any trail system.</li><li data-lm-list-item><b>Cross Country (XC)</b> - XC bikes have shorter travel suspension and are more focused on speed, efficiency, and climbing.</li><li data-lm-list-item><b>Enduro</b> - Enduro bikes mainly focus on speed and control going downhill but strike a balance with pedaling efficiency as enduro races require you to pedal up under your own power. Longer travel also allows hitting of larger and more technical trail features.</li><li data-lm-list-item><b>Downhill</b> - Mountain bikes with the highest amount of travel, built for the ultimate speed and stability going downhill. Longer travel also allows hitting of larger and more technical trail features.</li></ul>",
+    },
+  },
+  ProductData_BikeMtbFrontSusp: {
+    label: "Front Suspension",
+    sortPriority: 2.1,
+    info: {
+      text: "<p data-lm-text>The distance, in millimeters, that a front suspension fork will move.</p>",
+    },
+  },
+  ProductData_BikeMtbRearSusp: {
+    label: "Rear Suspension",
+    sortPriority: 2.2,
+    info: {
+      text: "<p data-lm-text>The distance, in millimeters, that the rear wheel will move with a rear suspension set up.</p>",
+    },
+  },
+  ProductData_BikeRecSpecIntendedSurface: {
+    label: "Intended Surface",
+    sortPriority: 2,
+    info: {
+      text:
+        "<ul data-lm-list><li data-lm-list-item><b>Pavement</b> - Smooth, sometimes skinnier, tires for easier rolling on paved surfaces.</li><li data-lm-list-item><b>Dirt</b> - Wider, knobbier tires, meant for taking off road or on loose dirt.</li><li data-lm-list-item><b>Gravel</b> - In between width, knobby tires that will work on pavement but excel on fire roads, packed dirt, and, of course, gravel.</li></ul>",
+    },
+  },
+  ProductData_BikeRecIntendedUse: {
+    label: "Intended Use",
+    sortPriority: 2,
+    info: {
+      text:
+        "<ul data-lm-list><li data-lm-list-item><b>Comfort</b> - Made for leisurely rides, generally on paved surfaces or hard packed dirt.</li><li data-lm-list-item><b>Fitness</b> - Designed to give a comfortable ride while having a sporty geometry to get a workout in whenever is convienent!</li><li data-lm-list-item><b>Mountain</b> - Intended to explore single-track mountain bike trails and rougher off-road terrain.</li><li data-lm-list-item><b>Road</b> - Meant to give you maximum efficiency on pavement.</li></ul>",
+    },
+  },
+  ProductData_BikeEbikeBattery: {
+    label: "Battery Size",
+    sortPriority: 2,
+    info: {
+      text:
+        "<p data-lm-text>Battery size is measured in Watt-Hours (Wh). A higher number means more battery capacity which, in general, will increase range!</p>",
+    },
+  },
+  ProductData_BikeAllMaterial: {
+    label: "Material",
+    sortPriority: 2,
+    info: {
+      text:
+        "<ul data-lm-list><li data-lm-list-item><b>Aluminum</b> - Great for strength, reliability, and price.</li><li data-lm-list-item><b>Carbon Fiber</b> - The superior material for frame stiffness and weight, giving the most efficient ride.</li></ul>",
+      mountainText:
+        "<ul data-lm-list><li data-lm-list-item><b>Aluminum</b> - Most common mountain bike frame material. Great for strength, reliability, and price.</li><li data-lm-list-item><b>Carbon Fiber</b> - The superior material for frame stiffness and weight, giving the most efficient ride.</li></ul>",
+    },
+  },
+  ProductData_BikeAllWhlSize: {
+    label: "Wheel Size",
+    sortPriority: 2.4,
+    info: {
+      text: "<p data-lm-text>Different wheel sizes can give bikes a different feel, riding style, or benefit different sizes of the same bike.</p>",
+      mountainText:
+        "<p data-lm-text>Different wheel sizes can give bikes a different feel, riding style, or benefit different sizes of the same bike.</p><ul data-lm-list><li data-lm-list-item><b>29</b> - Largest general mountain bike wheel size. Great for speed and rolling over obstacles.</li><li data-lm-list-item><b>27.5</b> - Great for reducing weight, lowering center of gravity for better control, and/or smaller sized mountain bikes.</li><li data-lm-list-item><b>27.5/29</b> - Mixed wheel or “mullet” set ups use a 29 wheel in the front and a 27.5 in the rear. This generally gives a more playful and nimble ride while still getting the rolling benefits of a 29.</li></ul>",
+      specialtyText:
+        "<p data-lm-text>Wheel sizes on specialty bikes can vary greatly due to their unique uses. Each will have sizes chosen by the designer to fit the specific use case of each bike. These wheels generally range from 20” to 29”.</p>",
+    },
+  },
+  ProductData_BikeEbikeTopSpeed: {
+    label: "Top Speed",
+    sortPriority: 2.1,
+    info: {
+      text:
+        "<p data-lm-text>In the US, eBikes have a top motor speed of either 20mph or 28mph, depending on the model, before cutting out and relying entirely on rider input.</p>",
+    },
+  },
+  ProductData_BikeEbikeRange: {
+    label: "Battery Range",
+    sortPriority: 3,
+    info: {
+      text:
+        "<p data-lm-text>The range of an eBike depends on many factors, including battery size, motor power, current assist mode, weather, terrain, and rider/cargo weight. Given all these factors, manufacturers tend to give the best possible range reading in ideal conditions like a warm day on a flat, paved surface with an “average” rider in the lowest assist mode. Actual milage may vary.</p>",
+    },
+  },
+  ProductData_BikeEbikeMotorWatt: {
+    label: "Motor Power",
+    sortPriority: 4,
+    info: {
+      text:
+        "<p data-lm-text>Motor wattage is a measure of the amount of power the motor can output in normal operating conditions. This is almost always a 'nominal' or 'sustained' reading while the 'peak' output can be higher in short bursts.</p>",
+    },
+  },
+  ProductData_BikeAllElecShift: {
+    label: "Electronic Shifting",
+    sortPriority: 10,
+    info: {
+      text: "",
+    },
+  },
+  ProductData_BikeAllNumberOfGears: {
+    label: "Number of Gears",
+    sortPriority: 10,
+    info: {
+      text: "<p data-lm-text>Number of cogs on the rear wheel of the bike. Generally translates to the amount of granularity while shifting.</p>",
+    },
+  },
+  ProductData_BikeEbikeClass: {
+    label: "EBike Classification",
+    sortPriority: 10,
+    info: {
+      text:
+        "<ul data-lm-list><li data-lm-list-item><b>Class 1</b> - Pedal assist only, top speed of 20mph.</li><li data-lm-list-item><b>Class 2</b> - Pedal assist and throttle, top speed of 20mph.</li><li data-lm-list-item><b>Class 3</b> - Pedal assist only, top speed of 28mph OR pedal assist with a top speed of 28mph and a throttle with a top speed of 20mph.</li></ul>",
+    },
+  },
+  ProductData_BikeEbikeThrottle: {
+    label: "Throttle Assist",
+    sortPriority: 10,
+    info: {
+      text:
+        "<ul data-lm-list><li data-lm-list-item><b>Yes</b> - Bike is equipped with a throttle.</li><li data-lm-list-item><b>No</b> - Bike is not equipped with a throttle and one cannot be added.</li><li data-lm-list-item><b>Optional Add-On</b> - Bike supports a throttle but is not equipped with one by default. A throttle can be purchased separately and added to bike.</li></ul>",
+    },
+  },
+  ProductData_AllStyle_Bike: {
+    label: "Intended Use",
+    sortPriority: 1,
+    info: {
+      text:
+        "<ul data-lm-list><li data-lm-list-item><b>Comfort</b> - Made for leisurely rides, generally on paved surfaces or hard packed dirt.</li><li data-lm-list-item><b>Fitness</b> - Even with a motor one can still experience a rewarding fitness ride, that's what these bikes are all about!</li><li data-lm-list-item><b>Mountain</b> - eMountain bikes are made to do exactly what an analog mountain bike does but allowing longer rides and assist on climbs, if desired!</li><li data-lm-list-item><b>Road</b> - eRoad bikes are efficient and fast, allowing longer rides than with an analog road bike.</li></ul>",
+    },
+  },
 };
 
 export const snowboardDataPoints: DataPoints = {
@@ -204,58 +392,6 @@ export const skiDataPoints: DataPoints = {
     info: {
       text:
         "<p data-lm-text> Waist width refers to how wide the ski is at the narrowest section of the ski. A wider waist width is a larger platform for floating in deep powder conditions, and a narrow waist is more agile on hardpack. </p>",
-    },
-  },
-};
-
-export const bikeDataPoints: DataPoints = {
-  ProductData_AllStyle_Bike: {
-    label: "Bicycle Style",
-    sortPriority: 0,
-    info: {
-      text: "All Style Text",
-    },
-  },
-  ProductData_BikeBestUse: {
-    label: "Best Use",
-    sortPriority: 0,
-    info: {
-      text: "Best Use Text",
-    },
-  },
-  ProductData_BikeMaterial: {
-    label: "Material",
-    sortPriority: 0,
-    info: {
-      text: "Material Text",
-    },
-  },
-  ProductData_BikeWhlSize: {
-    label: "Wheel Size",
-    sortPriority: 0,
-    info: {
-      text: "Wheel Size Text",
-    },
-  },
-  ProductData_BikeCasGears: {
-    label: "Cassette Gears",
-    sortPriority: 0,
-    info: {
-      text: "Cassette Gears Text",
-    },
-  },
-  ProductData_BikeChainrings: {
-    label: "Chainrings",
-    sortPriority: 0,
-    info: {
-      text: "Chainrings Text",
-    },
-  },
-  ProductData_BikeHandlebar: {
-    label: "Handlebar",
-    sortPriority: 0,
-    info: {
-      text: "Handlebar Text",
     },
   },
 };

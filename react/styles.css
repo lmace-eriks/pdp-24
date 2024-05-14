@@ -1,258 +1,265 @@
+.priceContainer {}
+
+.listPrice {}
+
+.sellingPrice {}
+
+.sizeToolButton {}
+
+.accordionContainer {}
+
+.accordionContainer {}
+
+.section {}
+
+.sectionButton {}
+
+.caret {}
+
+.sectionTitle {}
+
+.window {}
+
+.technicalSpecs {}
+
+.kitCard {}
+
+.productName {}
+
+.shippingPromo {}
+
+.shippingPromoLabel {}
+
+.chargeFreight {}
+
+.freeShippingThreshold {}
+
+.breadcrumbsNav {}
+
+.breadcrumbsList {}
+
+.breadcrumbsListItem {}
+
+.breadcrumbsLink {}
+
+.breadcrumbsSeparator {}
+
+.productNumber {}
+
+.bikeFinderContainer {}
+
+.finderLink {}
+
+.bikeFinderImage {}
+
+.productOverview {}
+
+.floatContainer {}
+
+.floatWrapper {}
+
+.floatClose {}
+
+.floatTitleAndDetails {}
+
+.floatProductTitle {}
+
+.floatProductDetails {}
+
+.floatDetailItem {}
+
+.floatDetailName {}
+
+.floatDetailValue {}
+
+.mainImageContainer {}
+
+.lowResLCPContainer {}
+
+.lowResLCP {}
+
+.skeletonThumbnailsContainer {}
+
+.skeletonThumbnail {}
+
+.sizeChartContainer {}
+
+.sizeChartImage {}
+
+.defaultSizeChartDisclaimer {}
+
+.defaultSizeChartDisclaimerLink {}
+
+.modalContainer {}
+
+.modalContent {}
+
+.modalContainer::backdrop {}
+
+.modalCloseButton {}
+
+.pointTable {}
+
+.pointTableBody {}
+
+.pointTrack {}
+
+.pointTrack:last-of-type {}
+
+.pointHead {}
+
+.pointMore {}
+
+.pointValue {}
+
+.pointValueMobileText {}
+
+.pointValueMobileIcon {}
+
+.valueContainer {}
+
+.valueLabel {}
+
+.pointIcon {}
+
+.learnMoreButton {}
+
+.learnMoreTextContainer {}
+
+.questionMark {}
+
+.learnMoreTitle {}
+
+.listContextProvider {}
+
+.starterKitImage {}
+
+.starterKitProductName {}
+
+.starterKitPriceContainer {}
+
+.starterKitSellingPrice {}
+
+.starterKitlistPrice {}
+
+.pointLabel {}
+
+.pointSublabel {}
+
+.starterKitSKUList {}
+
+.skuLabel {}
+
+.skuLabelText {}
+
+.skuSelect {}
+
+.skuOption {}
+
+.startKitDescriptionBoxContainer {}
+
+.startKitDescriptionBox {}
+
+.startKitDescriptionContainer {}
+
+.closeButtonContainer {}
+
+.startKitDescriptionWrapper {}
+
+.descriptionButton {}
+
+.collectionBadge {}
+
+.topSpeedFigure {}
+
+.topSpeedValueImage {}
+
+.topSpeedValue {}
+
+.topSpeedLabel {}
+
+.batteryRangeFigure {}
+
+.batteryRangeValueImage {}
+
+.batteryRangeValue {}
+
+.motorPowerFigure {}
+
+.motorPowerValueImage {}
+
+.motorPowerValue {}
+
+.motorPowerText {}
+
+.motorPowerLabel {}
+
+.batterySizeFigure {}
+
+.batterySizeValueImage {}
+
+.batterySizeValue {}
+
+.batterySizeLabel {}
+
+.intendedUseFigure {}
+
+.suspensionFigure {}
+
+.intendedUseFigcaption {}
+
+.intendedUseValueImage {}
+
+.intendedUseValue {}
+
+.blockImage {}
+
+.eriksCareButton {}
+
+.eriksCareIcon {}
+
+.eriksCareText {}
+
+.eriksCareModalButtonContainer {}
+
+.plpImage {}
+
+.plpProductName {}
+
+.plpColorButtonContainer {}
+
+.plpColorButton {}
+
+.discountBadge {}
+
+.plpPriceContainer {}
+
+.strikethroughPrice {}
+
+.sellingPriceRange {}
+
+.sellingPrice {}
+
+.plpTracks {}
+
+.plpTrain {}
+
+.plpCar {}
+
+.plpTrainButtonsContianer {}
+
+.plpTrainButton {}
+
+.plpCaret {}
+
+.specialBuyIconPLP {}
+
+/* Illegal Code Below */
+
 .pointTrack:last-of-type {
   border-bottom: none;
 }
 
-.priceContainer {
-}
-
-.listPrice {
-}
-
-.sellingPrice {
-}
-
-.sizeToolButton {
-}
-
-.accordionContainer {
-}
-
-.accordionContainer {
-}
-
-.section {
-}
-
-.sectionButton {
-}
-
-.caret {
-}
-
-.sectionTitle {
-}
-
-.window {
-}
-
-.technicalSpecs {
-}
-
-.kitCard {
-}
-
-.productName {
-}
-
-.shippingPromo {
-}
-
-.shippingPromoLabel {
-}
-
-.chargeFreight {
-}
-
-.freeShippingThreshold {
-}
-
-.breadcrumbsNav {
-}
-
-.breadcrumbsList {
-}
-
-.breadcrumbsListItem {
-}
-
-.breadcrumbsLink {
-}
-
-.breadcrumbsSeparator {
-}
-
-.productNumber {
-}
-
-.bikeFinderContainer {
-}
-
-.finderLink {
-}
-
-.bikeFinderImage {
-}
-
-.productOverview {
-}
-
-.floatContainer {
-}
-
-.floatWrapper {
-}
-
-.floatClose {
-}
-
-.floatTitleAndDetails {
-}
-
-.floatProductTitle {
-}
-
-.floatProductDetails {
-}
-
-.floatDetailItem {
-}
-
-.floatDetailName {
-}
-
-.floatDetailValue {
-}
-
-.mainImageContainer {
-}
-
-.lowResLCPContainer {
-}
-
-.lowResLCP {
-}
-
-.skeletonThumbnailsContainer {
-}
-
-.skeletonThumbnail {
-}
-
-.sizeChartContainer {
-}
-
-.sizeChartImage {
-}
-
-.defaultSizeChartDisclaimer {
-}
-
-.defaultSizeChartDisclaimerLink {
-}
-
-.modalContainer {
-}
-
-.modalContent {
-}
-
-.modalContainer::backdrop {
-}
-
-.modalCloseButton {
-}
-
-.pointTable {
-}
-
-.pointTableBody {
-}
-
-.pointTrack {
-}
-
-.pointTrack:last-of-type {
-}
-
-.pointHead {
-}
-
-.pointMore {
-}
-
-.pointValue {
-}
-
-.pointValueMobileText {
-}
-
-.pointValueMobileIcon {
-}
-
-.valueContainer {
-}
-
-.valueLabel {
-}
-
-.pointIcon {
-}
-
-.learnMoreButton {
-}
-
-.questionMark {
-}
-
-.learnMoreTitle {
-}
-
-.listContextProvider {
-}
-
-.starterKitImage {
-}
-
-.starterKitProductName {
-}
-
-.starterKitPriceContainer {
-}
-
-.starterKitSellingPrice {
-}
-
-.starterKitlistPrice {
-}
-
-.pointLabel {
-}
-
-.pointSublabel {
-}
-
-.starterKitSKUList {
-}
-
-.skuLabel {
-}
-
-.skuLabelText {
-}
-
-.skuSelect {
-}
-
-.skuOption {
-}
-
-.startKitDescriptionBoxContainer {
-}
-
-.startKitDescriptionBox {
-}
-
-.startKitDescriptionContainer {
-}
-
-.closeButtonContainer {
-}
-
-.startKitDescriptionWrapper {
-}
-
-.descriptionButton {
-}
-
-.collectionBadge {
+.plpTrainButton[disabled] {
+  opacity: 0.5;
 }

@@ -1,6 +1,8 @@
 import React from "react";
 import { useProduct } from 'vtex.product-context';
 
+import { trailingZero } from "./utils";
+
 import { default as s } from "./styles.css";
 
 const Pricing = () => {
@@ -11,8 +13,11 @@ const Pricing = () => {
 
     const displayListPrice = productSellingPrice && productListPrice && productSellingPrice < productListPrice;
 
-    const listPrice = displayListPrice ? `$${productListPrice?.toLocaleString()}` : "";
-    const sellingPrice = `$${productSellingPrice?.toLocaleString()}`;
+    const listPriceString = productListPrice?.toLocaleString();
+    const sellingPriceString = productSellingPrice?.toLocaleString();
+
+    const listPrice = displayListPrice ? `$${listPriceString}${trailingZero(listPriceString)}` : "";
+    const sellingPrice = `$${sellingPriceString}${trailingZero(sellingPriceString)}`;
 
     return <div className={s.priceContainer}>
         {listPrice && <s className={s.listPrice}>{listPrice}</s>}

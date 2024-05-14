@@ -56,6 +56,8 @@ const ProductMainImage = ({ children }: { children: ReactChildren | any }) => {
 
     if (displayChildren) return <>{children}</>
 
+    const altText = productContext?.product?.productName;
+
     return (
         <>
             {/* @ts-expect-error TS does not recognise <Helmet /> */}
@@ -66,7 +68,7 @@ const ProductMainImage = ({ children }: { children: ReactChildren | any }) => {
             <div className={s.mainImageContainer} onMouseEnter={flipToChildren}>
                 <div className={s.lowResLCPContainer}>
                     {/* @ts-expect-error TS does not recognise fetchPriority */}
-                    <img src={lowQualityFirstImageSrc} loading="eager" fetchPriority="high" width={pdpImageWidth} height={pdpImageHeight} className={s.lowResLCP} />
+                    <img src={lowQualityFirstImageSrc} alt={altText} loading="eager" fetchPriority="high" width={pdpImageWidth} height={pdpImageHeight} className={s.lowResLCP} />
                 </div>
                 {!isMobile &&
                     <div className={s.skeletonThumbnailsContainer}>

@@ -20,7 +20,6 @@ type SectionInfoObject = {
   eriksExtras: SectionInfo,
   reviews: SectionInfo,
   technicalSpecifications: SectionInfo,
-  // sizeChart: SectionInfo,
   geometry: SectionInfo,
   bikeFinder: SectionInfo,
   similarProducts: SectionInfo
@@ -56,9 +55,6 @@ const sectionInfo: SectionInfoObject = {
   technicalSpecifications: {
     label: "Technical Specifications"
   },
-  // sizeChart: {
-  //   label: "Size Chart"
-  // },
   geometry: {
     label: "Geometry"
   },
@@ -137,7 +133,7 @@ const PDP24 = ({ children }: PDP24Props) => {
     switch (section) {
       // Starter Kit
       case sectionInfo.starterKit.label: {
-        // Section not ready to publish yet.
+        // Section not ready to publish yet. More RMS dev work needed. 05/13/2024 - LM
         return false;
 
         const isBike = isCategory(stringTriggers.bicycles);
@@ -152,10 +148,6 @@ const PDP24 = ({ children }: PDP24Props) => {
       }
 
       case sectionInfo.details.label: {
-        // Cycling details card not ready to publish yet.
-        const isCycling = isCategory(stringTriggers.cycling);
-        if (isCycling) return false;
-
         // Details
         const hasDetails = productProperties?.some(item => item.name.includes(stringTriggers.productData));
         return hasDetails;
@@ -170,13 +162,11 @@ const PDP24 = ({ children }: PDP24Props) => {
       case sectionInfo.eriksExtras.label: {
         // Erik's Extras
         const hasExtras = !!productProperties?.find(item => item.name === stringTriggers.eriksExtras);
-        if (!hasExtras) console.info(productContext?.product?.productReference);
-
         return hasExtras;
       }
 
       case sectionInfo.geometry.label: {
-        // Geometry
+        // Geometry - Where are we with this section?
         // const isBike = isCategory(stringTriggers.bicycles);
         // return isBike;
         return false;
@@ -202,17 +192,20 @@ const PDP24 = ({ children }: PDP24Props) => {
     switch (section) {
       // Details
       case sectionInfo.details.label: {
-        if (isCycling) return false; // Cycling details card not ready to publish yet.
+        if (hasDetails) {
+          setActiveSection(1);
+        }
+
         return hasDetails;
       }
 
       // Technical Specifications
       case sectionInfo.technicalSpecifications.label: {
-        if (isCycling) {
-          return true; // Cycling details card not ready to publish yet.
-        } else {
-          return hasDetails ? false : true;
+        if (!hasDetails) {
+          setActiveSection(3);
         }
+
+        return hasDetails ? false : true;
       }
 
       default: return false;

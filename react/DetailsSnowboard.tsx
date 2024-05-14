@@ -7,7 +7,7 @@ import { default as s } from "./styles.css";
 import { PointObject, snowboardDataPoints, DataPoints, MoreInfoObject } from "./typesData";
 import { stringTriggers } from "./PDP24";
 
-import { removeSpaces, addSpaces } from "./ProductDetails";
+import { removeSpaces, addSpaces, sortDataPoints } from "./ProductDetails";
 
 const DetailsSnowboard = () => {
     const productContext = useProduct();
@@ -22,7 +22,7 @@ const DetailsSnowboard = () => {
     const dataPointsFromVTEX = productProperties?.filter(item => item.name.includes(stringTriggers.productData));
     if (!dataPointsFromVTEX) return <></>;
 
-    const dataPointsToDisplay: PointObject[] = dataPointsFromVTEX.map(item => {
+    const unsortedDataPoints: PointObject[] = dataPointsFromVTEX.map(item => {
         const tempKey = item.name as keyof DataPoints;
         const tempItem = snowboardDataPoints[tempKey]
         const tempInfo: MoreInfoObject = tempItem?.info || { text: "", title: "", image: "" }
@@ -36,14 +36,7 @@ const DetailsSnowboard = () => {
         }
     });
 
-    dataPointsToDisplay.sort((a, b) => {
-        const aSort = a.sortPriority || 10;
-        const bSort = b.sortPriority || 10;
-
-        if (aSort > bSort) return 1;
-        if (aSort < bSort) return -1;
-        return 0;
-    })
+    const dataPointsToDisplay: PointObject[] = sortDataPoints(unsortedDataPoints);
 
     const handleMoreInfoClick = (point: PointObject) => {
         const tempMoreInfo: MoreInfoObject = {

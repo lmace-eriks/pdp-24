@@ -17,6 +17,9 @@
   "ebs-shipping-promo": {
     "component": "ShippingPromo"
   },
+  "ebs-care": {
+    "component": "EriksCare"
+  },
   "ebs-breadcrumbs": {
     "component": "Breadcrumbs"
   },
@@ -55,5 +58,14 @@
   },
   "ebs-list-context": {
     "component": "ListContext"
+  },
+  "ebs-plp-image-colors": {
+    "component": "PLPImageColors"
+  },
+  "ebs-plp-discount-badge": {
+    "component": "PLPDiscountBadge"
+  },
+  "ebs-plp-collection-badge": {
+    "component": "PLPCollectionBadge"
   }
 }
