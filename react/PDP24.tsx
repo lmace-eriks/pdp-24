@@ -187,7 +187,6 @@ const PDP24 = ({ children }: PDP24Props) => {
   // This prevents us from needing a useEffect().
   const getInitialActivity = (section: string) => {
     const hasDetails = productContext?.product?.properties.some(item => item.name.includes(stringTriggers.productData));
-    const isCycling = isCategory(stringTriggers.cycling);
 
     switch (section) {
       // Details

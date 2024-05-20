@@ -46,6 +46,16 @@ export const removeSpaces = (value: string) => {
 
 export const addSpaces = (value: string) => value.split("-").join(" - ");
 
+export const dataPointsHash = (dataPoint: string) => {
+    const stringArray = dataPoint.split("");
+
+    const characterCodes = stringArray.map(character => character.charCodeAt(0));
+    const characterCodeSum = characterCodes.reduce((sum, characterCode) => sum + characterCode);
+
+    // Prime Number
+    return characterCodeSum % 59;
+}
+
 const ProductDetails = () => {
     const productContext = useProduct();
 

@@ -5,7 +5,7 @@ import { default as s } from "./styles.css";
 
 import { PointObject, bikeDataPoints, DataPoints, MoreInfoObject } from "./typesData";
 import { stringTriggers } from "./PDP24";
-import { sortDataPoints } from "./ProductDetails";
+import { sortDataPoints, dataPointsHash } from "./ProductDetails";
 
 const DetailsBike = () => {
     const productContext = useProduct();
@@ -14,20 +14,35 @@ const DetailsBike = () => {
     const modalRef = useRef<HTMLDialogElement>(null);
     const [learnMore, setLearnMore] = useState<MoreInfoObject>();
 
+    const valueHashTable = useRef<Map<string, string>[]>([]);
+
     const dataPointsFromVTEX = productProperties?.filter(item => item.name.includes(stringTriggers.productData));
     if (!dataPointsFromVTEX) return <></>;
+
+    // Fill Hash Table
+    for (const dataPoint of dataPointsFromVTEX) {
+        const hashTableIndex = dataPointsHash(dataPoint.name);
+        const indexHasMap = !!valueHashTable.current[hashTableIndex];
+
+        // If index is empty, create new Map();
+        if (!indexHasMap) valueHashTable.current[hashTableIndex] = new Map();
+        valueHashTable.current[hashTableIndex].set(dataPoint.name, dataPoint.values[0]);
+    }
 
     const unsortedDataPoints: PointObject[] = dataPointsFromVTEX.map(item => {
         const tempKey = item.name as keyof DataPoints;
         const tempItem = bikeDataPoints[tempKey];
         const tempInfo: MoreInfoObject = tempItem?.info || { text: "", title: "", image: "" };
 
+        const valueFromHashTable = valueHashTable.current[dataPointsHash(item.name)].get(item.name);
+
         return {
             label: tempItem?.label || item.name,
             sublabel: tempItem?.sublabel || "",
             sortPriority: tempItem?.sortPriority || 10,
             info: tempInfo,
-            value: dataPointsFromVTEX.find(vtexItem => vtexItem.name === item.name)?.values[0] || ""
+            // value: dataPointsFromVTEX.find(vtexItem => vtexItem.name === item.name)?.values[0] || ""
+            value: valueFromHashTable || ""
         }
     });
 
