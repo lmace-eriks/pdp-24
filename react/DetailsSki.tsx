@@ -6,7 +6,7 @@ import { default as s } from "./styles.css";
 import { PointObject, skiDataPoints, DataPoints, MoreInfoObject } from "./typesData";
 import { stringTriggers } from "./PDP24";
 
-import { removeSpaces, addSpaces, sortDataPoints, dataPointsHash } from "./ProductDetails";
+import { removeSpaces, addSpaces, sortDataPoints } from "./ProductDetails";
 
 const DetailsSki = () => {
     const productContext = useProduct();
@@ -15,35 +15,20 @@ const DetailsSki = () => {
     const modalRef = useRef<HTMLDialogElement>(null);
     const [learnMore, setLearnMore] = useState<MoreInfoObject>();
 
-    const valueHashTable = useRef<Map<string, string>[]>([]);
-
     const dataPointsFromVTEX = productProperties?.filter(item => item.name.includes(stringTriggers.productData));
     if (!dataPointsFromVTEX) return <></>;
-
-    // Fill Hash Table
-    for (const dataPoint of dataPointsFromVTEX) {
-        const hashTableIndex = dataPointsHash(dataPoint.name);
-        const indexHasMap = !!valueHashTable.current[hashTableIndex];
-
-        // If index is empty, create new Map();
-        if (!indexHasMap) valueHashTable.current[hashTableIndex] = new Map();
-        valueHashTable.current[hashTableIndex].set(dataPoint.name, dataPoint.values[0]);
-    }
 
     const unsortedDataPoints: PointObject[] = dataPointsFromVTEX.map(item => {
         const tempKey = item.name as keyof DataPoints;
         const tempItem = skiDataPoints[tempKey]
         const tempInfo: MoreInfoObject = tempItem?.info || { text: "", title: "", image: "" }
 
-        const valueFromHashTable = valueHashTable.current[dataPointsHash(item.name)].get(item.name);
-
         return {
             label: tempItem?.label || item.name,
             sublabel: tempItem?.sublabel || "",
             sortPriority: tempItem?.sortPriority || 10,
             info: tempInfo,
-            // value: dataPointsFromVTEX.find(vtexItem => vtexItem.name === item.name)?.values[0] || ""
-            value: valueFromHashTable || ""
+            value: item.values[0]
         }
     });
 

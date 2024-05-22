@@ -5,7 +5,7 @@ import { default as s } from "./styles.css";
 
 import { PointObject, bikeDataPoints, DataPoints, MoreInfoObject } from "./typesData";
 import { stringTriggers } from "./PDP24";
-import { sortDataPoints, dataPointsHash } from "./ProductDetails";
+import { sortDataPoints } from "./ProductDetails";
 
 const DetailsBike = () => {
     const productContext = useProduct();
@@ -14,35 +14,20 @@ const DetailsBike = () => {
     const modalRef = useRef<HTMLDialogElement>(null);
     const [learnMore, setLearnMore] = useState<MoreInfoObject>();
 
-    const valueHashTable = useRef<Map<string, string>[]>([]);
-
     const dataPointsFromVTEX = productProperties?.filter(item => item.name.includes(stringTriggers.productData));
     if (!dataPointsFromVTEX) return <></>;
-
-    // Fill Hash Table
-    for (const dataPoint of dataPointsFromVTEX) {
-        const hashTableIndex = dataPointsHash(dataPoint.name);
-        const indexHasMap = !!valueHashTable.current[hashTableIndex];
-
-        // If index is empty, create new Map();
-        if (!indexHasMap) valueHashTable.current[hashTableIndex] = new Map();
-        valueHashTable.current[hashTableIndex].set(dataPoint.name, dataPoint.values[0]);
-    }
 
     const unsortedDataPoints: PointObject[] = dataPointsFromVTEX.map(item => {
         const tempKey = item.name as keyof DataPoints;
         const tempItem = bikeDataPoints[tempKey];
         const tempInfo: MoreInfoObject = tempItem?.info || { text: "", title: "", image: "" };
 
-        const valueFromHashTable = valueHashTable.current[dataPointsHash(item.name)].get(item.name);
-
         return {
             label: tempItem?.label || item.name,
             sublabel: tempItem?.sublabel || "",
             sortPriority: tempItem?.sortPriority || 10,
             info: tempInfo,
-            // value: dataPointsFromVTEX.find(vtexItem => vtexItem.name === item.name)?.values[0] || ""
-            value: valueFromHashTable || ""
+            value: item.values[0]
         }
     });
 
@@ -88,18 +73,19 @@ const DetailsBike = () => {
         modalRef.current?.close();
     }
 
-    const PointIcon = (point: PointObject) => {
-        if (!point.value) return;
+    const PointIcon = (label: string, value: string | undefined) => {
+        if (!value) return;
+
         const imgDir = "/arquivos";
 
-        switch (point.label) {
+        switch (label) {
             case "Top Speed": {
                 const imageOne = "top-speed-left.png";
-                const valueWithoutUnit = point.value.toLowerCase().split("mph")[0];
+                const valueWithoutUnit = value.toLowerCase().split("mph")[0];
 
                 return (
                     <figure className={s.topSpeedFigure}>
-                        <figcaption data-sr-only>{point.value} Top Speed</figcaption>
+                        <figcaption data-sr-only>{value} Top Speed</figcaption>
                         <div className={s.topSpeedValueImage}>
                             <img src={`${imgDir}/${imageOne}`} loading="lazy" alt="" width={102} height={100} className={s.blockImage} />
                             <div className={s.topSpeedValue}>
@@ -118,11 +104,11 @@ const DetailsBike = () => {
 
                 return (
                     <figure className={s.batteryRangeFigure}>
-                        <figcaption data-sr-only>{point.value} Mile Range</figcaption>
+                        <figcaption data-sr-only>{value} Mile Range</figcaption>
                         <div className={s.batteryRangeValueImage}>
                             <img src={`${imgDir}/${imageOne}`} loading="lazy" alt="" width={214} height={60} className={s.blockImage} />
                             <div className={s.batteryRangeValue}>
-                                {point.value} Mile Range
+                                {value} Mile Range
                             </div>
                         </div>
                     </figure>
@@ -134,11 +120,11 @@ const DetailsBike = () => {
 
                 return (
                     <figure className={s.motorPowerFigure}>
-                        <figcaption data-sr-only>{point.value} Watts Motor Power</figcaption>
+                        <figcaption data-sr-only>{value} Watts Motor Power</figcaption>
                         <div className={s.motorPowerValueImage}>
                             <img src={`${imgDir}/${imageOne}`} loading="lazy" alt="" width={68} height={100} className={s.blockImage} />
                             <div className={s.motorPowerValue}>
-                                <div className={s.motorPowerText}>{point.value}W</div>
+                                <div className={s.motorPowerText}>{value}W</div>
                                 <div className={s.motorPowerLabel}>Motor Power</div>
                             </div>
                         </div>
@@ -150,11 +136,11 @@ const DetailsBike = () => {
                 const imageOne = "battery-size-top-v2.png";
                 return (
                     <figure className={s.batterySizeFigure}>
-                        <figcaption data-sr-only>{point.value} Watt Hours</figcaption>
+                        <figcaption data-sr-only>{value} Watt Hours</figcaption>
                         <div className={s.batterySizeValueImage}>
                             <img src={`${imgDir}/${imageOne}`} loading="lazy" alt="" width={139} height={60} className={s.blockImage} />
                             <div className={s.batterySizeValue}>
-                                {point.value}Wh
+                                {value}Wh
                             </div>
                         </div>
                         <div className={s.batterySizeLabel}>Battery Size</div>
@@ -166,7 +152,7 @@ const DetailsBike = () => {
                 // Category Tree is often undefined on first render attempt.
                 if (!productContext?.product?.categoryTree) return;
 
-                const tempKey = point.value.toLowerCase();
+                const tempKey = value.toLowerCase();
                 let productCategory = productContext?.product?.categoryTree[productContext?.product?.categoryTree.length - 1].name.toLowerCase()!;
 
                 // Edge case for some bikes.
@@ -188,14 +174,14 @@ const DetailsBike = () => {
                 }
 
                 const hashMapCategory = imageHashMap[productCategory];
-                if (!hashMapCategory) return <>{point.value}</>;
+                if (!hashMapCategory) return <>{value}</>;
 
                 const iuImageSource = hashMapCategory[tempKey];
-                if (!iuImageSource) return <>{point.value}</>
+                if (!iuImageSource) return <>{value}</>
 
                 return (
                     <figure className={s.intendedUseFigure}>
-                        <figcaption className={s.intendedUseFigcaption}>{point.value}</figcaption>
+                        <figcaption className={s.intendedUseFigcaption}>{value}</figcaption>
                         <img src={`${imgDir}/${iuImageSource}`}
                             loading="lazy" alt="" width={335} height={80} className={s.blockImage} />
                     </figure>
@@ -203,34 +189,34 @@ const DetailsBike = () => {
             }
 
             case "Intended Surface": {
-                const fileName = point.value === "Paved & Unpaved" ? "both" : point.value;
+                const fileName = value === "Paved & Unpaved" ? "both" : value;
 
                 return (
                     <figure className={s.intendedUseFigure}>
-                        <figcaption className={s.intendedUseFigcaption}>{point.value}</figcaption>
+                        <figcaption className={s.intendedUseFigcaption}>{value}</figcaption>
                         <img src={`/arquivos/surface-${fileName.toLowerCase()}.png`} width={225} height={80} />
                     </figure>
                 )
             }
 
             case "EBike Classification": {
-                const classNumber = Number(point.value.split(" ")[1]);
+                const classNumber = Number(value.split(" ")[1]);
 
                 return (
                     <figure className={s.intendedUseFigure}>
-                        <figcaption className={s.intendedUseFigcaption}>{point.value}</figcaption>
+                        <figcaption className={s.intendedUseFigcaption}>{value}</figcaption>
                         <img src={`${imgDir}/ebike-class-${classNumber}.png`} loading="lazy" alt="" width={250} height={80} className={s.blockImage} />
                     </figure>
                 )
             }
 
             case "Number of Gears": {
-                const cleanGears = point.value.toLowerCase().replace("x", " x ");
+                const cleanGears = value.toLowerCase().replace("x", " x ");
                 return (<>{cleanGears}</>);
             }
 
             case "Tire Size": {
-                const cleanTires = point.value.toLowerCase().replace("x", " x ");
+                const cleanTires = value.toLowerCase().replace("x", " x ");
                 return (<>{cleanTires}</>);
             }
 
@@ -239,8 +225,8 @@ const DetailsBike = () => {
                 return (
                     <figure className={s.suspensionFigure}>
                         <img src={`${imgDir}/bike-pdp-suspension-front.png`} loading="lazy" width={80} height={80} style={{ display: "block" }} />
-                        {point.value}
-                        <figcaption data-sr-only>{point.value} Front Suspension Travel</figcaption>
+                        {value}
+                        <figcaption data-sr-only>{value} Front Suspension Travel</figcaption>
                     </figure>
                 )
             }
@@ -250,13 +236,13 @@ const DetailsBike = () => {
                 return (
                     <figure className={s.suspensionFigure}>
                         <img src={`${imgDir}/bike-pdp-suspension-full.png`} loading="lazy" width={80} height={80} style={{ display: "block" }} />
-                        {point.value}
-                        <figcaption data-sr-only>{point.value} Rear Suspension Travel</figcaption>
+                        {value}
+                        <figcaption data-sr-only>{value} Rear Suspension Travel</figcaption>
                     </figure>
                 )
             }
 
-            default: return <>{point.value}</>;
+            default: return <>{value}</>;
         }
     }
 
@@ -307,7 +293,7 @@ const DetailsBike = () => {
                             </th>
                             <td className={s.pointValue}>
                                 <div className={s.valueContainer}>
-                                    {PointIcon(point)}
+                                    {PointIcon(point.label, point.value)}
                                 </div>
                             </td>
                             <td className={s.pointMore}>

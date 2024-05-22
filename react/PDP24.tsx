@@ -166,9 +166,7 @@ const PDP24 = ({ children }: PDP24Props) => {
       }
 
       case sectionInfo.geometry.label: {
-        // Geometry - Where are we with this section?
-        // const isBike = isCategory(stringTriggers.bicycles);
-        // return isBike;
+        // Geometry - Where are we with this section? - LM 04/2024
         return false;
       }
 
