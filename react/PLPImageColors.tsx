@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ProductSummaryContext } from 'vtex.product-summary-context'
 const { useProductSummary } = ProductSummaryContext;
 
+import { stringTriggers } from "./PDP24";
 import { trailingZero } from "./utils";
 
 import { default as s } from "./styles.css";
@@ -31,6 +32,16 @@ const PLPImageColors = () => {
     const uglyColorList: Array<SKUImageObject> = product.items.map((item) => {
         // @ts-ignore - variations are not present on the ProductSummaryTypes.SKU object.
         const colorIndex = item.variations.findIndex(variation => variation.name === "Color");
+
+        // Gift Card Exception
+        if (colorIndex === -1 && item.name.toLowerCase().includes("email")) {
+            return {
+                itemColor: "",
+                itemName: "",
+                itemImageSource: "",
+                imageId: ""
+            }
+        }
 
         return {
             // @ts-ignore - variations are not present on the ProductSummaryTypes.SKU object.
@@ -98,6 +109,15 @@ const PLPImageColors = () => {
         e.stopPropagation();
     }
 
+    const isGiftCard = () => {
+        // @ts-ignore - categories does not exist in product type.
+        if (product.categories[0].includes(stringTriggers.giftCards)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     return (
         <>
             <div className={s.plpTracks}>
@@ -124,7 +144,7 @@ const PLPImageColors = () => {
 
             <h2 className={s.plpProductName}>{product.productName}</h2>
             <div className={s.plpPriceContainer}>
-                {listPriceHigh > sellingPriceLow && <s className={s.strikethroughPrice}>${listPriceHigh.toLocaleString()}{trailingZero(listPriceHigh.toString())}</s>}
+                {listPriceHigh > sellingPriceLow && !isGiftCard() && <s className={s.strikethroughPrice}>${listPriceHigh.toLocaleString()}{trailingZero(listPriceHigh.toString())}</s>}
                 {!!sellingPriceRange ? <div className={s.sellingPriceRange}>{sellingPriceRange}</div> : <div className={s.sellingPrice}>${sellingPriceHigh.toLocaleString()}{trailingZero(sellingPriceHigh.toLocaleString())}</div>}
             </div>
 
