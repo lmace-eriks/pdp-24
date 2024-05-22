@@ -64,7 +64,7 @@ export type DataPoints = {
   ProductData_BikeSpecType?: PointObject;
   ProductData_BikeRoadIntendedUse?: PointObject;
   ProductData_BikeRoadTireSize?: PointObject;
-  //
+  // I am unsure if we are using the below datapoints - LM 05/22/2024
   ProductData_AllStyle_Bike?: PointObject;
   ProductData_BikeBestUse?: PointObject;
   ProductData_BikeMaterial?: PointObject;
@@ -157,9 +157,9 @@ export const bikeDataPoints: DataPoints = {
     sortPriority: 2,
     info: {
       text:
-        "<ul data-lm-list><li data-lm-list-item><b>Aluminum</b> - Great for strength, reliability, and price.</li><li data-lm-list-item><b>Carbon Fiber</b> - The superior material for frame stiffness and weight, giving the most efficient ride.</li></ul>",
+        "<ul data-lm-list><li data-lm-list-item><b>Aluminum</b> - Great for strength, reliability, and price.</li><li data-lm-list-item><b>Steel</b> - Versatility, craftsmanship, and durability for a unique riding experience.</li><li data-lm-list-item><b>Carbon Fiber</b> - The superior material for frame stiffness and weight, giving the most efficient ride.</li></ul>",
       mountainText:
-        "<ul data-lm-list><li data-lm-list-item><b>Aluminum</b> - Most common mountain bike frame material. Great for strength, reliability, and price.</li><li data-lm-list-item><b>Carbon Fiber</b> - The superior material for frame stiffness and weight, giving the most efficient ride.</li></ul>",
+        "<ul data-lm-list><li data-lm-list-item><b>Aluminum</b> - Most common mountain bike frame material. Great for strength, reliability, and price.</li><li data-lm-list-item><b>Steel</b> - Versatility, craftsmanship, and durability for a unique riding experience.</li><li data-lm-list-item><b>Carbon Fiber</b> - The superior material for frame stiffness and weight, giving the most efficient ride.</li></ul>",
     },
   },
   ProductData_BikeAllWhlSize: {
