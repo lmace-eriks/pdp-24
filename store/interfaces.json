@@ -67,5 +67,8 @@
   },
   "ebs-plp-collection-badge": {
     "component": "PLPCollectionBadge"
+  },
+  "ebs-share-pdp": {
+    "component": "SharePDP"
   }
 }

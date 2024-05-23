@@ -124,7 +124,7 @@ const PLPImageColors = () => {
                 <div className={s.plpTrain} style={{ transform: `translateX(-${plpTrainIndex * resultWidth}px)` }}>
                     {currentImageIds.map((image, index) => (
                         <div key={`${index}-${image}`} className={s.plpCar}>
-                            <img src={sourceString(image)} alt="" width={plpImageWidth} height={plpImageHeight} className={s.plpImage} />
+                            <img src={sourceString(image)} alt="" loading="lazy" width={plpImageWidth} height={plpImageHeight} className={s.plpImage} />
                         </div>
                     ))}
                 </div>
