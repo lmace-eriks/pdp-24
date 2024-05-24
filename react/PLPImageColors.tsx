@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ProductSummaryContext } from 'vtex.product-summary-context'
+import { useRuntime } from 'vtex.render-runtime'
 const { useProductSummary } = ProductSummaryContext;
 
 import { stringTriggers } from "./PDP24";
@@ -13,6 +14,7 @@ type SKUImageObject = {
     itemImageSource: string
     imageId: string
 }
+
 const resultWidth = 300;
 const plpImageWidth = resultWidth;
 const plpImageHeight = plpImageWidth;
@@ -25,6 +27,8 @@ const sourceString = (id: string, width: number = plpImageWidth, height: number 
 const PLPImageColors = () => {
     const { product } = useProductSummary();
     const items = product.items;
+
+    const { production } = useRuntime();
 
     const [plpTrainIndex, setPLPTrainIndex] = useState(0);
     const [trainState, setTrainState] = useState({ left: false, right: true });
@@ -43,9 +47,20 @@ const PLPImageColors = () => {
             }
         }
 
+        // @ts-ignore Exception if SKU variations are blank. Uncommon.
+        if (item.variations[colorIndex] === undefined) {
+            console.info(item);
+            return {
+                itemColor: "",
+                itemName: item.name,
+                itemImageSource: item.images[0].imageUrl,
+                imageId: item.images[0].imageId
+            }
+        }
+
         return {
             // @ts-ignore - variations are not present on the ProductSummaryTypes.SKU object.
-            itemColor: item.variations[colorIndex].values[0],
+            itemColor: item.variations[colorIndex].values[0] || "",
             itemName: item.name,
             itemImageSource: item.images[0].imageUrl,
             imageId: item.images[0].imageId
@@ -76,12 +91,6 @@ const PLPImageColors = () => {
         setTrainState({ left: false, right: true });
         setPLPTrainIndex(0);
     }
-
-    const sellingPriceHigh = product.priceRange.sellingPrice.highPrice;
-    const sellingPriceLow = product.priceRange.sellingPrice.lowPrice;
-    const sellingPriceRange = sellingPriceHigh > sellingPriceLow ? `$${sellingPriceLow.toLocaleString()}${trailingZero(sellingPriceLow.toString())} - $${sellingPriceHigh.toLocaleString()}${trailingZero(sellingPriceHigh.toString())}` : "";
-
-    const listPriceHigh = product.priceRange.listPrice.highPrice;
 
     const handleTrainClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const target = event.currentTarget as HTMLButtonElement;
@@ -118,6 +127,27 @@ const PLPImageColors = () => {
         }
     }
 
+    // Simulation Behaviour searchAnomoly Hack - https://developers.vtex.com/docs/apps/vtex.search
+    let searchAnomoly = false;
+    let sellingPriceHigh: number | undefined = undefined;
+    let sellingPriceLow: number | undefined = undefined;
+    let listPriceHigh: number | undefined = undefined;
+    let sellingPrice: number | undefined = undefined;
+    let listPrice: number | undefined = undefined;
+    let sellingPriceRange: string | undefined = undefined;
+
+    if (!product.priceRange) {
+        searchAnomoly = true;
+
+        listPrice = product.sku.seller.commertialOffer.ListPrice;
+        sellingPrice = product.sku.seller.commertialOffer.Price;
+    } else {
+        sellingPriceHigh = product.priceRange.sellingPrice.highPrice;
+        sellingPriceLow = product.priceRange.sellingPrice.lowPrice;
+        sellingPriceRange = sellingPriceHigh > sellingPriceLow ? `$${sellingPriceLow.toLocaleString()}${trailingZero(sellingPriceLow.toString())} - $${sellingPriceHigh.toLocaleString()}${trailingZero(sellingPriceHigh.toString())}` : "";
+        listPriceHigh = product.priceRange.listPrice.highPrice;
+    }
+
     return (
         <>
             <div className={s.plpTracks}>
@@ -144,8 +174,18 @@ const PLPImageColors = () => {
 
             <h2 className={s.plpProductName}>{product.productName}</h2>
             <div className={s.plpPriceContainer}>
-                {listPriceHigh > sellingPriceLow && !isGiftCard() && <s className={s.strikethroughPrice}>${listPriceHigh.toLocaleString()}{trailingZero(listPriceHigh.toString())}</s>}
-                {!!sellingPriceRange ? <div className={s.sellingPriceRange}>{sellingPriceRange}</div> : <div className={s.sellingPrice}>${sellingPriceHigh.toLocaleString()}{trailingZero(sellingPriceHigh.toLocaleString())}</div>}
+                <>
+                    {searchAnomoly && <>
+                        {production === false && <small style={{ display: "block", fontWeight: "bold", color: "red" }}>Search Anomoly</small>}
+                        {listPrice && sellingPrice && (sellingPrice < listPrice) && <s className={s.strikethroughPrice}>${listPrice.toLocaleString()}{trailingZero(listPrice.toString())}</s>}
+                        {sellingPrice && <div className={s.sellingPrice}>${sellingPrice.toLocaleString()}</div>}
+                    </>}
+
+                    {!searchAnomoly && <>
+                        {(listPriceHigh && sellingPriceLow) && listPriceHigh > sellingPriceLow && !isGiftCard() && <s className={s.strikethroughPrice}>${listPriceHigh.toLocaleString()}{trailingZero(listPriceHigh.toString())}</s>}
+                        {!!sellingPriceRange && !!sellingPriceHigh ? <div className={s.sellingPriceRange}>{sellingPriceRange}</div> : <div className={s.sellingPrice}>${sellingPriceHigh?.toLocaleString()}{trailingZero(sellingPriceHigh?.toLocaleString())}</div>}
+                    </>}
+                </>
             </div>
 
             {showColorOptions &&
