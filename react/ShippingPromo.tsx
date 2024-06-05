@@ -13,7 +13,7 @@ const flatRate = "Flat Rate Shipping on this item!";
 const inStoreOnlyText = "This item is available for In-Store Pick-Up Only";
 const freeShippingOverThresholdText = "Free Shipping on orders over $99!";
 const chargeFreightText = "This item is excluded from Free Shipping Promotions";
-const lowInventoryText = "In-Store Pick-Up Only. Low Inventory.";
+// const lowInventoryText = "In-Store Pick-Up Only. Low Inventory."; IDK about this one - LM
 
 const shippingPromoCollections: Array<ShippingCollectionObject> = [
     {

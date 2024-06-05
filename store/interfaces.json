@@ -70,5 +70,13 @@
   },
   "ebs-share-pdp": {
     "component": "SharePDP"
+  },
+  "ebs-regional-banner": {
+    "component": "RegionalBanner",
+    "composition": "children"
+  },
+  "ebs-rider-essentials": {
+    "component": "RiderEssentials",
+    "composition": "children"
   }
 }

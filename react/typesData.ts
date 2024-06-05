@@ -412,3 +412,39 @@ export type ImageSourceObject = {
   height?: number | "auto";
   quality?: number;
 };
+
+// Parent list brought up to date on 05/28/2024 - LM
+export const sortedAventonBikeParentIdList = ["PR3E22459", "PR3E23944", "PR3E23945", "PR3E26660", "PR3E26661", "PR5A10799", "PR5A10801", "PR5A10803", "PR5A10804", "PR5A14330", "PR5A14332", "PR5A15042", "PR5A15571", "PR5A15572", "PR5A16930", "PR5A17620", "PR5A17621", "PR5A18619", "PR5A18620", "PR5A18908", "PR5A19055", "PR5A19224", "PR5A19225", "PR5A19226", "PR5A19227", "PR5A19770", "PR5A20490", "PR5A20491", "PR5A21693", "PR5A21883", "PR5A22584", "PR5A22757", "PR5A22758", "PR5A22759", "PR5A22760", "PR5A22761"];
+
+// Returns true if supplied ParentID is in supplied array of Parent Ids.
+export const binarySearchParentId: (targetParentId: string, sortedParentList: string[], firstIndex: number, finalIndex: number) => boolean = (targetParentId: string, sortedParentList: string[], firstIndex: number, finalIndex: number) => {
+  if (firstIndex > finalIndex) return false;
+
+  targetParentId = targetParentId.toLowerCase();
+
+  const pivotIndex = Math.floor((firstIndex + finalIndex) / 2);
+  const pivotElement = sortedParentList[pivotIndex].toLowerCase();
+
+  if (pivotElement === targetParentId) return true;
+
+  if (pivotElement > targetParentId) {
+    return binarySearchParentId(targetParentId, sortedParentList, firstIndex, pivotIndex - 1);
+  } else {
+    return binarySearchParentId(targetParentId, sortedParentList, pivotIndex + 1, finalIndex);
+  }
+}
+
+export const binaryNumberSearch: (targetNumber: number, numberList: number[], firstIndex: number, finalIndex: number) => boolean = (targetNumber: number, numberList: number[], firstIndex: number, finalIndex: number) => {
+  if (firstIndex > finalIndex) return false;
+
+  const pivotIndex = Math.floor((firstIndex + finalIndex) / 2);
+  const pivotElement = numberList[pivotIndex];
+
+  if (pivotElement === targetNumber) return true;
+
+  if (pivotElement > targetNumber) {
+    return binaryNumberSearch(targetNumber, numberList, firstIndex, pivotIndex - 1);
+  } else {
+    return binaryNumberSearch(targetNumber, numberList, pivotIndex + 1, finalIndex);
+  }
+}

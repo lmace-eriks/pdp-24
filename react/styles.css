@@ -256,12 +256,38 @@
 
 .shareButton {}
 
+.regionalBannerContainer {}
+
+.regionalBannerText {}
+
+.regionalBannerSubtext {}
+
+.reBlankBox {}
+
+.reListContextProvider {}
+
+.reContainer {}
+
+.reTracks {}
+
+.reTrain {}
+
+.reCar {}
+
+.reSlideButtonContainer {}
+
+.reSlideButton {}
+
+.reButtonImage {}
+
 /* Illegal Code Below */
 
 .pointTrack:last-of-type {
   border-bottom: none;
 }
 
-.plpTrainButton[disabled] {
+.plpTrainButton[disabled],
+.reSlideButton[disabled] {
   opacity: 0.5;
+  cursor: default;
 }

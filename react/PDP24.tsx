@@ -2,13 +2,15 @@ import React, { ReactChildren, useRef, useState } from "react";
 import { useProduct } from 'vtex.product-context';
 
 import { default as s } from "./styles.css";
-import { parentIdStarterKits } from "./starterKitParentIdList";
 
 // Components
 import StarterKit from "./StarterKit";
 import EriksExtras from "./EriksExtras";
 import BikeFinder from "./BikeFinder";
 import ProductDetails from "./ProductDetails";
+
+// import { parentIdStarterKits } from "./starterKitParentIdList";
+// import { binarySearchParentId, sortedAventonBikeParentIdList } from "./typesData";
 
 type PDP24Props = {
   children: ReactChildren | any
@@ -134,17 +136,16 @@ const PDP24 = ({ children }: PDP24Props) => {
       // Starter Kit
       case sectionInfo.starterKit.label: {
         // Section not ready to publish yet. More RMS dev work needed. 05/13/2024 - LM
+        // Update. Marketing wants Aventon ebikes to display custom starter kit. - 05/28/2024 - LM
+        // Update. Marketing wants this outside of accordion. - 05/31/2024 - LM
+
         return false;
 
-        const isBike = isCategory(stringTriggers.bicycles);
-        if (!isBike) return false;
+        // const parentId = productContext?.product?.productReference;
+        // if (!parentId) return false;
 
-        const parentId = productContext?.product?.productReference.toLowerCase();
-        const specialParent = parentIdStarterKits.find(item => item.parentId.toLowerCase() === parentId);
-        if (specialParent) return true;
-
-        const bikeHasBestUse = !!productProperties?.find(item => item.name === stringTriggers.bikeBestUse)?.values[0];
-        return bikeHasBestUse;
+        // const showAventonStarterKit = binarySearchParentId(parentId, sortedAventonBikeParentIdList, 0, sortedAventonBikeParentIdList.length - 1);
+        // return showAventonStarterKit;
       }
 
       case sectionInfo.details.label: {

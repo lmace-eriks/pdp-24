@@ -1,7 +1,9 @@
 import React, { ReactChildren } from "react";
 import { useProduct } from "vtex.product-context";
 
-import { stringTriggers } from "./PDP24";
+import { binarySearchParentId, sortedAventonBikeParentIdList } from "./typesData";
+
+const starterKitIndex = (kitName: string, allStarterKits: Array<ReactChildren | any>) => allStarterKits.findIndex(item => item.props.blockProps.starterKitType === kitName);
 
 const StarterKit = (children: ReactChildren | any) => {
     const productContext = useProduct();
@@ -9,16 +11,27 @@ const StarterKit = (children: ReactChildren | any) => {
 
     // Starter Kits only exist on bicycles. - LM
     // Examples: Road, Gravel, Mountain, Recreational, Electric Recreational
-    // Look for specific parentID to display specific starter kit - Will want eventually so I should build it.
 
-    const productProperties = productContext?.product?.properties!;
-    const bicycleBestUse = productProperties.find(item => item.name === stringTriggers.bikeBestUse)?.values[0]!;
-    if (!bicycleBestUse) return <></>;
+    // Update, we will only be looking for Aventon Ebike Parent IDs for the starter kit - 05/28/2024 - LM
 
-    const kitMatchIndex = starterKitsList.findIndex((item: any) => item.props.blockProps.starterKitType === bicycleBestUse);
-    if (kitMatchIndex === -1) return <></>;
+    const parentId = productContext?.product?.productReference.toLowerCase();
+    if (!parentId) return <></>;
 
-    return <>{starterKitsList[kitMatchIndex]}</>;
+    // Aventon Abound
+    // if (parentId === "pr5a18908") {
+    //     return <>{starterKitsList[starterKitIndex("Aventon Abound", starterKitsList)]}</>;
+    // }
+
+    const productIsAventonEbike = binarySearchParentId(parentId, sortedAventonBikeParentIdList, 0, sortedAventonBikeParentIdList.length - 1);
+
+    if (productIsAventonEbike) return <>{starterKitsList[starterKitIndex("Aventon", starterKitsList)]}</>;
+
+    // Demonstration only, below is not built or on the roadmap. - LM
+    const productIsBmcBike = false;
+    if (productIsBmcBike) return <>{starterKitsList[starterKitIndex("BMC", starterKitsList)]}</>;
+
+    return <></>;
+
 };
 
 export default StarterKit;
