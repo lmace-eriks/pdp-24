@@ -46,7 +46,7 @@ const RegionalBanner = () => {
     if (!product.categoryTree) return <></>;
 
     const categoryTree = product?.categoryTree.map(category => category.name.toLowerCase());
-    const properties = product.properties.map(property => property.name.toLowerCase());
+    const properties = product?.properties?.map(property => property.name.toLowerCase());
 
     const shipping = orderForm?.shipping;
     if (!shipping) return <></>;
