@@ -54,6 +54,9 @@ const shippingPromoCollections: Array<ShippingCollectionObject> = [
     }
 ];
 
+const ChargeFreightElement = () => <div className={s.chargeFreight}>{chargeFreightText}</div>;
+const FreeShippingThresholdElement = () => <div className={s.freeShippingThreshold}>{freeShippingOverThresholdText}</div>;
+
 const ShippingPromo = () => {
     const productContext = useProduct();
     const productClusters = productContext?.product?.productClusters;
@@ -80,9 +83,6 @@ const ShippingPromo = () => {
     // Erik thinks these two collections are too low of a flat rate to display the promo. - LM 03/01/2024
     const hideFlatRate = validShippingPromo?.id === "207" || validShippingPromo?.id === "208";
 
-    const ChargeFreightElement = () => <div className={s.chargeFreight}>{chargeFreightText}</div>;
-    const FreeShippingThresholdElement = () => <div className={s.freeShippingThreshold}>{freeShippingOverThresholdText}</div>;
-
     // Render Free Shipping Over Threshold, without flat rate.
     if (hideFlatRate && validShippingPromo && !chargeFreight) return (
         <div className={s.shippingPromo} data-promo-type={`free-shipping-threshold-collection-id-${validShippingPromo.id}`} data-charge-freight={chargeFreight}>
@@ -90,13 +90,25 @@ const ShippingPromo = () => {
         </div>
     )
 
+    // Render Promo, but hide Free Shipping Threshold
+    if (validShippingPromo.id === "317") {
+        return (
+            <div className={s.shippingPromo} data-promo-type={`collection-id-${validShippingPromo.id}`} data-charge-freight={chargeFreight}>
+                <div className={s.shippingPromoLabel}>{validShippingPromo.label}</div>
+            </div>
+        )
+    }
+
     // Render Shipping Promo.
-    if (validShippingPromo) return (
-        <div className={s.shippingPromo} data-promo-type={`collection-id-${validShippingPromo.id}`} data-charge-freight={chargeFreight}>
-            <div className={s.shippingPromoLabel}>{validShippingPromo.label}</div>
-            {(chargeFreight && validShippingPromo.id !== "317") ? <ChargeFreightElement /> : validShippingPromo.id !== "206" && <FreeShippingThresholdElement />}
-        </div>
-    )
+    if (validShippingPromo) {
+        console.log(validShippingPromo);
+        return (
+            <div className={s.shippingPromo} data-promo-type={`collection-id-${validShippingPromo.id}`} data-charge-freight={chargeFreight}>
+                <div className={s.shippingPromoLabel}>{validShippingPromo.label}</div>
+                {chargeFreight ? <ChargeFreightElement /> : validShippingPromo.id !== "206" && <FreeShippingThresholdElement />}
+            </div>
+        )
+    }
 
     // Render Free Shipping.
     if (!chargeFreight) return (
