@@ -3,121 +3,113 @@ import { useProduct } from 'vtex.product-context';
 
 import { default as s } from "./styles.css";
 
-type ShippingCollectionObject = {
-    id: string
-    label: string,
-}
-
+const freeShippingText = "FREE SHIPPING on this item!";
 const nonContinental = "Excludes AK and HI";
 const flatRate = "Flat Rate Shipping on this item!";
-const inStoreOnlyText = "This item is available for In-Store Pick-Up Only";
 const freeShippingOverThresholdText = "Free Shipping on orders over $99!";
 const chargeFreightText = "This item is excluded from Free Shipping Promotions";
-// const lowInventoryText = "In-Store Pick-Up Only. Low Inventory."; IDK about this one - LM
 
-const shippingPromoCollections: Array<ShippingCollectionObject> = [
-    {
-        id: "206",
-        label: `FREE SHIPPING on this item! ${nonContinental}`
-    },
-    {
-        id: "207",
-        label: `$15 ${flatRate} ${nonContinental}`
-    },
-    {
-        id: "208",
-        label: `$19 ${flatRate} ${nonContinental}`
-    },
-    {
-        id: "209",
-        label: `$49 ${flatRate} ${nonContinental}`
-    },
-    {
-        id: "311",
-        label: `$75 ${flatRate} ${nonContinental}`
-    },
-    {
-        id: "210",
-        label: `$99 ${flatRate} ${nonContinental}`
-    },
-    {
-        id: "312",
-        label: `$150 ${flatRate} ${nonContinental}`
-    },
-    {
-        id: "317",
-        label: chargeFreightText
-    },
-    {
-        id: "394",
-        label: inStoreOnlyText
-    }
-];
+const shippingMap = new Map<string, string>();
+
+shippingMap.set("206", `${freeShippingText} ${nonContinental}`);
+shippingMap.set("207", `$15 ${flatRate} ${nonContinental}`);
+shippingMap.set("208", `$19 ${flatRate} ${nonContinental}`);
+shippingMap.set("209", `$49 ${flatRate} ${nonContinental}`);
+shippingMap.set("311", `$75 ${flatRate} ${nonContinental}`);
+shippingMap.set("210", `$99 ${flatRate} ${nonContinental}`);
+shippingMap.set("312", `$150 ${flatRate} ${nonContinental}`);
 
 const ChargeFreightElement = () => <div className={s.chargeFreight}>{chargeFreightText}</div>;
-const FreeShippingThresholdElement = () => <div className={s.freeShippingThreshold}>{freeShippingOverThresholdText}</div>;
+const FreeShippingAmountElement = () => <div className={s.freeShippingThreshold}>{freeShippingOverThresholdText}</div>
 
 const ShippingPromo = () => {
     const productContext = useProduct();
     const productClusters = productContext?.product?.productClusters;
+    if (!productClusters) return <></>;
 
-    // Check for inStoreOnly first.
-    const inStoreOnly = productClusters?.some(item => item.id === "394");
+    const collectionIds = new Set();
+    for (const collection of productClusters) collectionIds.add(collection.id);
 
-    // Render "In Store Only" Text.
+    const inStoreOnly = collectionIds.has("394");
+    const freeShipping = collectionIds.has("206");
+    const chargeFreight = collectionIds.has("317");
+
+    // Erik thinks these two collections are too low of a flat rate to display the promo. - LM 03/01/2024
+    const hideFlatRate = collectionIds.has("207") || collectionIds.has("208");
+
+    // For error tracking in dev tools.
+    const trackingAttributes = {
+        "data-collection-ids": Array.from(collectionIds.values()).join(", "),
+        "data-in-store-only": inStoreOnly.toString(),
+        "data-free-shipping": freeShipping.toString(),
+        "data-charge-freight": chargeFreight.toString(),
+        "data-hide-flat-rate": hideFlatRate.toString()
+    }
+
+    const TrackingElement = () => <div>
+        In Store Only: {trackingAttributes["data-in-store-only"]} <br />
+        Charge Freight: {trackingAttributes["data-charge-freight"]} <br />
+        Free Shipping: {trackingAttributes["data-free-shipping"]} <br />
+        Hide Flat Rate: {trackingAttributes["data-hide-flat-rate"]} <br />
+        Collection Ids: {trackingAttributes["data-collection-ids"]} <br />
+    </div>
+
+    // In Store Only takes priority.
     if (inStoreOnly) return (
-        <div className={s.shippingPromo} data-promo-type="in-store-only">
-            <div className={s.shippingPromoLabel}>{inStoreOnlyText}</div>
+        <div className={s.shippingPromo} {...trackingAttributes}>
+            <div className={s.shippingPromoLabel}>This item is available for In-Store Pick-Up Only</div>
         </div>
     )
 
-    const chargeFreight = productClusters?.some(item => item.id === "317");
+    // If item has Free Shipping, we don't need to check for anything else.
+    if (freeShipping) return (
+        <div className={s.shippingPromo} {...trackingAttributes}>
+            <div className={s.shippingPromoLabel}>{freeShippingText}</div>
+            <div className={s.freeShippingThreshold}>{nonContinental}</div>
+        </div>
+    )
 
-    // Search for any id inside shippingPromoCollections.
-    const validShippingPromo = shippingPromoCollections.find(shipId => {
-        return productClusters?.find(item => item.id === shipId.id);
-    });
-
-    if (!validShippingPromo) return <></>;
-
-    // Erik thinks these two collections are too low of a flat rate to display the promo. - LM 03/01/2024
-    const hideFlatRate = validShippingPromo?.id === "207" || validShippingPromo?.id === "208";
-
-    // Render Free Shipping Over Threshold, without flat rate.
-    if (hideFlatRate && validShippingPromo && !chargeFreight) return (
-        <div className={s.shippingPromo} data-promo-type={`free-shipping-threshold-collection-id-${validShippingPromo.id}`} data-charge-freight={chargeFreight}>
+    // Flat Rate promo exists, but is too "light" to advertise. Display default messaging.
+    if (hideFlatRate && !chargeFreight) return (
+        <div className={s.shippingPromo} {...trackingAttributes}>
             <div className={s.shippingPromoLabel}>{freeShippingOverThresholdText}</div>
         </div>
     )
 
-    // Render Promo, but hide Free Shipping Threshold
-    if (validShippingPromo.id === "317") {
-        return (
-            <div className={s.shippingPromo} data-promo-type={`collection-id-${validShippingPromo.id}`} data-charge-freight={chargeFreight}>
-                <div className={s.shippingPromoLabel}>{validShippingPromo.label}</div>
-            </div>
-        )
-    }
+    /* Find valid shipping promo. Item should not exist in more than one
+     "flat rate" collection, so terminate loop when first match is found. */
+    const promoId: () => string = () => {
+        for (const [collectionId] of shippingMap) {
+            const promoMatch = collectionIds.has(collectionId);
 
-    // Render Shipping Promo.
-    if (validShippingPromo) {
-        console.log(validShippingPromo);
-        return (
-            <div className={s.shippingPromo} data-promo-type={`collection-id-${validShippingPromo.id}`} data-charge-freight={chargeFreight}>
-                <div className={s.shippingPromoLabel}>{validShippingPromo.label}</div>
-                {chargeFreight ? <ChargeFreightElement /> : validShippingPromo.id !== "206" && <FreeShippingThresholdElement />}
-            </div>
-        )
-    }
+            if (promoMatch) return collectionId;
+        }
+        return "";
+    };
 
-    // Render Free Shipping.
-    if (!chargeFreight) return (
-        <div className={s.shippingPromo} data-promo-type="no-freight-no-promo">
-            <FreeShippingThresholdElement />
-        </div>
+    // No promoId found: Item has no shipping rate.
+    if (!promoId() && chargeFreight) return (
+        <>
+            {/* <TrackingElement /> */}
+            <div className={s.shippingPromo} {...trackingAttributes} >
+                <div className={s.shippingPromoLabel}>{chargeFreightText}</div>
+            </div>
+        </>
     );
 
-    return <></>;
+    // Display flat rate shipping promo.
+    if (promoId()) {
+        return (
+            <div className={s.shippingPromo} {...trackingAttributes} >
+                <div className={s.shippingPromoLabel}>{shippingMap.get(promoId())}</div>
+                {chargeFreight ? <ChargeFreightElement /> : <FreeShippingAmountElement />}
+            </div>
+        )
+    } else {
+        /* We shouldn't ever reach this condition except for Gift Cards
+        with the current collection rules set up in VTEX. */
+        return <div {...trackingAttributes} />;
+    }
 }
 
 export default ShippingPromo;

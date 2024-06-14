@@ -71,8 +71,6 @@ const sectionInfo: SectionInfoObject = {
   }
 }
 
-export const waitForDOM = (callbackFunction: any, ms: number = 1) => setTimeout(() => callbackFunction(), ms);
-
 const PDP24 = ({ children }: PDP24Props) => {
   // Hooks
   const productContext = useProduct();
@@ -101,15 +99,21 @@ const PDP24 = ({ children }: PDP24Props) => {
       if (window) window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     } else {
       setActiveSection(index);
-      if (scrollTo) scrollToActiveSection(index);
+      if (scrollTo) {
+        /*
+          The rAF() callback will run before next paint, but after the current
+          function in the browser's call stack executes. Here we are wating for react
+          to setActiveSection(index) state before determining where the newlyActivatedSection
+          element is in the window. Because all sections' height (open or closed) are determined
+          by activeSection state, we need to collapse all accordion sections before determining
+          where to scroll to.
+        */
+        requestAnimationFrame(() => {
+          const newlyActivatedSection = sections.current[index];
+          if (window) window.scrollTo({ top: newlyActivatedSection.offsetTop - 50, left: 0, behavior: "smooth" });
+        })
+      }
     }
-  }
-
-  const scrollToActiveSection = (index: number) => {
-    waitForDOM(() => {
-      const newlyActivatedSection = sections.current[index];
-      if (window) window.scrollTo({ top: newlyActivatedSection.offsetTop - 50, left: 0, behavior: "smooth" });
-    });
   }
 
   const getTitle = (section: string) => {

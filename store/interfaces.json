@@ -17,6 +17,9 @@
   "ebs-shipping-promo": {
     "component": "ShippingPromo"
   },
+  "ebs-assembly-fee-badge": {
+    "component": "AssemblyFeeBadge"
+  },
   "ebs-care": {
     "component": "EriksCare"
   },
