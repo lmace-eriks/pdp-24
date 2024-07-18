@@ -38,6 +38,9 @@
   "ebs-size-tool-button": {
     "component": "SizeToolButton"
   },
+  "ebs-size-chart": {
+    "component": "SizeChartPicker"
+  },
   "ebs-starter-kit-item": {
     "component": "StarterKitItem"
   },
@@ -81,5 +84,8 @@
   "ebs-rider-essentials": {
     "component": "RiderEssentials",
     "composition": "children"
+  },
+  "shred-size-chart": {
+    "component": "ShredSizeChart"
   }
 }

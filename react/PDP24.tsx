@@ -4,25 +4,19 @@ import { useProduct } from 'vtex.product-context';
 import { default as s } from "./styles.css";
 
 // Components
-import StarterKit from "./StarterKit";
 import EriksExtras from "./EriksExtras";
 import BikeFinder from "./BikeFinder";
 import ProductDetails from "./ProductDetails";
-
-// import { parentIdStarterKits } from "./starterKitParentIdList";
-// import { binarySearchParentId, sortedAventonBikeParentIdList } from "./typesData";
 
 type PDP24Props = {
   children: ReactChildren | any
 }
 
 type SectionInfoObject = {
-  starterKit: SectionInfo
   details: SectionInfo,
   eriksExtras: SectionInfo,
   reviews: SectionInfo,
   technicalSpecifications: SectionInfo,
-  geometry: SectionInfo,
   bikeFinder: SectionInfo,
   similarProducts: SectionInfo
 }
@@ -43,11 +37,7 @@ export const stringTriggers = {
   eriksExtras: "Extra"
 }
 
-// "Related Articles" is a separate VTEX native app. It will render if there is at least 1 blog post. - LM
 const sectionInfo: SectionInfoObject = {
-  starterKit: {
-    label: "Starter Kit"
-  },
   details: {
     label: "Details"
   },
@@ -56,9 +46,6 @@ const sectionInfo: SectionInfoObject = {
   },
   technicalSpecifications: {
     label: "Technical Specifications"
-  },
-  geometry: {
-    label: "Geometry"
   },
   bikeFinder: {
     label: "Bike Finder"
@@ -101,12 +88,11 @@ const PDP24 = ({ children }: PDP24Props) => {
       setActiveSection(index);
       if (scrollTo) {
         /*
-          The rAF() callback will run before next paint, but after the current
-          function in the browser's call stack executes. Here we are wating for react
-          to setActiveSection(index) state before determining where the newlyActivatedSection
-          element is in the window. Because all sections' height (open or closed) are determined
-          by activeSection state, we need to collapse all accordion sections before determining
-          where to scroll to.
+          The rAF() schedules its callback to run after the current browser paint and callstack function,
+          but before the next paint. Here we are waiting for react to setActiveSection(index) state before
+          determining where the newlyActivatedSection element is in the window. Because all sections'
+          height (open or closed) are determined by activeSection state, we need to collapse all non-active
+          accordion sections before determining where to scroll to. - LM
         */
         requestAnimationFrame(() => {
           const newlyActivatedSection = sections.current[index];
@@ -119,10 +105,6 @@ const PDP24 = ({ children }: PDP24Props) => {
   const getTitle = (section: string) => {
 
     switch (section) {
-      case sectionInfo.starterKit.label:
-        const bikeBestUse = productProperties?.find(item => item.name === stringTriggers.bikeBestUse)?.values[0];
-        return `${bikeBestUse || ""} Bicycle ${section}`;
-
       case sectionInfo.details.label:
         const isBike = isCategory(stringTriggers.bicycles);
         const isSnowboard = isCategory(stringTriggers.snowboards);
@@ -134,23 +116,10 @@ const PDP24 = ({ children }: PDP24Props) => {
     }
   }
 
+  // Returns boolean. Determines if section should be visible with CSS.
   const getApplicability = (section: string) => {
 
     switch (section) {
-      // Starter Kit
-      case sectionInfo.starterKit.label: {
-        // Section not ready to publish yet. More RMS dev work needed. 05/13/2024 - LM
-        // Update. Marketing wants Aventon ebikes to display custom starter kit. - 05/28/2024 - LM
-        // Update. Marketing wants this outside of accordion. - 05/31/2024 - LM
-
-        return false;
-
-        // const parentId = productContext?.product?.productReference;
-        // if (!parentId) return false;
-
-        // const showAventonStarterKit = binarySearchParentId(parentId, sortedAventonBikeParentIdList, 0, sortedAventonBikeParentIdList.length - 1);
-        // return showAventonStarterKit;
-      }
 
       case sectionInfo.details.label: {
         // Details
@@ -170,11 +139,6 @@ const PDP24 = ({ children }: PDP24Props) => {
         return hasExtras;
       }
 
-      case sectionInfo.geometry.label: {
-        // Geometry - Where are we with this section? - LM 04/2024
-        return false;
-      }
-
       case sectionInfo.similarProducts.label: {
         // Similar Products
         const isGiftCard = isCategory(stringTriggers.giftCards);
@@ -190,12 +154,14 @@ const PDP24 = ({ children }: PDP24Props) => {
   // This prevents us from needing a useEffect().
   const getInitialActivity = (section: string) => {
     const hasDetails = productContext?.product?.properties.some(item => item.name.includes(stringTriggers.productData));
+    const sectionLabels = Array.from(sectionElements.keys());
 
     switch (section) {
       // Details
       case sectionInfo.details.label: {
         if (hasDetails) {
-          setActiveSection(1);
+          const detailsSectionIndex = sectionLabels.findIndex(section => section === sectionInfo.details.label);
+          setActiveSection(detailsSectionIndex);
         }
 
         return hasDetails;
@@ -204,7 +170,8 @@ const PDP24 = ({ children }: PDP24Props) => {
       // Technical Specifications
       case sectionInfo.technicalSpecifications.label: {
         if (!hasDetails) {
-          setActiveSection(3);
+          const techSpecsSectionIndex = sectionLabels.findIndex(section => section === sectionInfo.technicalSpecifications.label);
+          setActiveSection(techSpecsSectionIndex);
         }
 
         return hasDetails ? false : true;
@@ -214,38 +181,55 @@ const PDP24 = ({ children }: PDP24Props) => {
     }
   }
 
+  const sectionAttributes: (label: string, index: number) => { [key: string]: any } = (label: string, index: number) => {
+    return {
+      key: `section-${index}`,
+      id: label === sectionInfo.reviews.label ? "all-reviews" : `section-${index}`,
+      ref: (element: HTMLDivElement) => setSectionRef(element, index),
+      "data-section": index,
+      "data-active-section": activeSection === -2 ? getInitialActivity(label) : activeSection === index ? "true" : "false",
+      "aria-labelledby": `section-${index}-title`,
+      className: s.section
+    }
+  }
+
   const ReviewsApp = () => children.find((child: any) => child.props.id === "product-reviews.power-reviews");
   const SimmilarProducts = () => children.find((child: any) => child.props.id === "shelf.relatedProducts");
   const TechnicalSpecifications = () => <div dangerouslySetInnerHTML={{ __html: productContext?.product?.description || "" }} className={s.technicalSpecs} />
 
+  const sectionElements = new Map<string, JSX.Element>();
+  sectionElements.set(sectionInfo.details.label, <ProductDetails />);
+  sectionElements.set(sectionInfo.eriksExtras.label, <EriksExtras />);
+  sectionElements.set(sectionInfo.technicalSpecifications.label, <TechnicalSpecifications />);
+  sectionElements.set(sectionInfo.bikeFinder.label, <BikeFinder />);
+  sectionElements.set(sectionInfo.reviews.label, <ReviewsApp />);
+  sectionElements.set(sectionInfo.similarProducts.label, <SimmilarProducts />);
+
+  const lazyLoadSectionLabels = new Set([sectionInfo.eriksExtras.label, sectionInfo.bikeFinder.label, sectionInfo.reviews.label, sectionInfo.similarProducts.label]);
+
   return (
     <div className={s.accordionContainer}>
-      {Object.values(sectionInfo).map((section: SectionInfo, index: number) => (
-        <section
-          key={`section-${index}`}
-          id={section.label === sectionInfo.reviews.label ? "all-reviews" : `section-${index}`}
-          ref={(element: HTMLDivElement) => setSectionRef(element, index)}
-          data-section={index}
-          data-active-section={activeSection === -2 ? getInitialActivity(section.label) : activeSection === index ? "true" : "false"}
-          data-applicable={getApplicability(section.label)}
-          aria-labelledby={`section-${index}-title`}
-          className={s.section}>
-          <button aria-controls={`window-${index}`} onClick={() => activateSection(index, true)} className={s.sectionButton}>
-            <h2 id={`section-${index}-title`} className={s.sectionTitle}>{getTitle(section.label)}</h2>
-            <img src="/arquivos/sm-caret.gif" width="24" height="14" className={s.caret} aria-hidden="true" alt="" />
-          </button>
-          <div id={`window-${index}`} aria-hidden={!(activeSection === index)} className={s.window}>
-            {section.label === sectionInfo.starterKit.label && activeSection === index && <StarterKit children={children} />}
-            {section.label === sectionInfo.details.label && <ProductDetails />}
-            {section.label === sectionInfo.eriksExtras.label && activeSection === index && <EriksExtras />}
-            {section.label === sectionInfo.technicalSpecifications.label && <TechnicalSpecifications />}
-            {section.label === sectionInfo.geometry.label && <>Geometry Section</>}
-            {section.label === sectionInfo.bikeFinder.label && activeSection === index && <BikeFinder />}
-            {section.label === sectionInfo.reviews.label && activeSection === index && <ReviewsApp />}
-            {section.label === sectionInfo.similarProducts.label && activeSection === index && <SimmilarProducts />}
-          </div>
-        </section>
-      ))}
+      {Object.values(sectionInfo).map((section: SectionInfo, index: number) => {
+        const { label } = section;
+        if (!getApplicability(label)) return <></>;
+
+        const isLazyLoaded = lazyLoadSectionLabels.has(label);
+        const currentlyActiveSection = activeSection === index;
+        const activeAndLazy = isLazyLoaded && currentlyActiveSection;
+
+        return (
+          <section {...sectionAttributes(label, index)}>
+            <button aria-controls={`window-${index}`} onClick={() => activateSection(index, true)} className={s.sectionButton}>
+              <h2 id={`section-${index}-title`} className={s.sectionTitle}>{getTitle(label)}</h2>
+              <img src="/arquivos/sm-caret.gif" width="24" height="14" className={s.caret} aria-hidden="true" alt="" />
+            </button>
+            <div id={`window-${index}`} aria-hidden={!(activeSection === index)} className={s.window}>
+              {activeAndLazy && sectionElements.get(label)}
+              {!isLazyLoaded && sectionElements.get(label)}
+            </div>
+          </section>
+        )
+      })}
     </div>
   )
 }

@@ -3,39 +3,45 @@ import { useProduct } from "vtex.product-context";
 
 import { default as s } from "./styles.css";
 
-import { PointObject, bikeDataPoints, DataPoints, MoreInfoObject } from "./typesData";
-import { stringTriggers } from "./PDP24";
+// Data and Functions
+import { bikeDetailsMap, buildDataPointMap } from "./typesData";
 import { sortDataPoints } from "./ProductDetails";
+
+// Types
+import { PointObject, MoreInfoObject } from "./typesData";
 
 const DetailsBike = () => {
     const productContext = useProduct();
     const productProperties = productContext?.product?.properties;
+    if (!productProperties) return <></>;
 
     const modalRef = useRef<HTMLDialogElement>(null);
     const [learnMore, setLearnMore] = useState<MoreInfoObject>();
 
-    const dataPointsFromVTEX = productProperties?.filter(item => item.name.includes(stringTriggers.productData));
-    if (!dataPointsFromVTEX) return <></>;
+    // Map() of valid Product Data Points along with their value.
+    const dataPointValueMap = buildDataPointMap(productProperties);
+    if (!dataPointValueMap) return <></>;
 
-    const unsortedDataPoints: PointObject[] = dataPointsFromVTEX.map(item => {
-        const tempKey = item.name as keyof DataPoints;
-        const tempItem = bikeDataPoints[tempKey];
-        const tempInfo: MoreInfoObject = tempItem?.info || { text: "", title: "", image: "" };
+    const bikeProductDataMap = bikeDetailsMap();
+
+    // Populate unsortedMapData[] with all relevant info from bikeProductDataMap.
+    const unsortedMapData: PointObject[] = [...dataPointValueMap].map(([dataPoint, value]) => {
+        const tempInfo: MoreInfoObject = bikeProductDataMap.get(dataPoint)?.info || { text: "", title: "", image: "" };
 
         return {
-            label: tempItem?.label || item.name,
-            sublabel: tempItem?.sublabel || "",
-            sortPriority: tempItem?.sortPriority || 10,
+            label: bikeProductDataMap.get(dataPoint)?.label || "",
+            sublabel: bikeProductDataMap.get(dataPoint)?.sublabel || "",
+            sortPriority: bikeProductDataMap.get(dataPoint)?.sortPriority || 10,
             info: tempInfo,
-            value: item.values[0]
-        }
+            value
+        };
     });
 
-    const dataPointsToDisplay: PointObject[] = sortDataPoints(unsortedDataPoints);
+    const dataPointsToDisplay: PointObject[] = sortDataPoints(unsortedMapData);
 
     const handleMoreInfoClick = (point: PointObject) => {
         // Marketing last minute wanted specific text descriptions for some "Learn More"
-        // modals depending on category. So we need to compute all this extra logic. - LM
+        // modals depending on category. So we need to compute this extra logic. - LM
 
         const productCategory = productContext?.product?.categoryTree[productContext?.product?.categoryTree.length - 1].name.toLowerCase();
         const productIsElectric = !!dataPointsToDisplay.find(item => item.label === "ProductData_BikeEbikeClass");
@@ -252,36 +258,36 @@ const DetailsBike = () => {
 
         const productCategory = categoryTree[categoryTree.length - 1].name.toLowerCase();
 
-        if (productCategory === "mountain") {
-            const hasText = point.info?.mountainText || point.info?.text;
-            return !!hasText;
+        switch (productCategory) {
+            case "mountain": {
+                const hasText = point.info?.mountainText || point.info?.text;
+                return !!hasText;
+            }
+
+            case "road": {
+                const hasText = point.info?.roadText || point.info?.text;
+                return !!hasText;
+            }
+
+            case "recreational": {
+                const hasText = point.info?.recText || point.info?.text;
+                return !!hasText;
+            }
+
+            case "recumbent/trike": {
+                const hasText = point.info?.recText || point.info?.text;
+                return !!hasText;
+            }
+
+            default: {
+                const hasText = !!point.info?.text;
+                return hasText;
+            }
         }
-
-        if (productCategory === "road" || productCategory === "cyclocross") {
-            const hasText = point.info?.roadText || point.info?.text;
-            return !!hasText;
-        }
-
-        if (productCategory === "recreational") {
-            const hasText = point.info?.recText || point.info?.text;
-            return !!hasText;
-        }
-
-        if (productCategory === "recumbent/trike") {
-            const hasText = point.info?.specialtyText || point.info?.text;
-            return !!hasText;
-        }
-
-        const hasText = !!point.info?.text;
-
-        return hasText;
     }
 
     return (
         <>
-            {/* {dataPointsFromVTEX.map(item => (
-                <div key={item.name} style={{ marginBottom: "1rem", textAlign: "center" }}><b>{item.name}</b>: {item.values[0]}</div>
-            ))} */}
             <table className={s.pointTable}>
                 <thead></thead>
                 <tbody className={s.pointTableBody}>
