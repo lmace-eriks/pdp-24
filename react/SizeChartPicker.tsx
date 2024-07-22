@@ -27,6 +27,8 @@ const SizeChartPicker = () => {
     const categoryTree = productContext?.product?.categoryTree;
     if (!categoryTree) return <></>;
 
+    if (categoryTree[0].name === "Gift Cards") return <></>;
+
     const isBicycle = categoryTree[1].name === "Bicycles";
     if (isBicycle) return <SizeToolButton />;
 
