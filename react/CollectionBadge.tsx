@@ -23,10 +23,14 @@ const CollectionBadge = () => {
     const productContext = useProduct();
     const highlights = productContext?.product?.clusterHighlights;
 
+    // Swap this out for a SWITCH statement
+
     const isSpecialBuy = !!highlights?.find(item => item.id === specialBuy.id);
     if (isSpecialBuy) {
         return <img src={`/arquivos/${specialBuy.fileName}`} alt={specialBuy.altText} data-collection-id={specialBuy.id} width={specialBuy.width} height={specialBuy.height} className={s.collectionBadge} />
     }
+
+    // "Best For..." Badge
 
     return <></>;
 }

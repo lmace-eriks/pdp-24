@@ -17,7 +17,7 @@ const SizeChartPicker = () => {
     if (properties) {
         const sizeChartItem = properties.find(item => item.name === "Size Chart");
         if (sizeChartItem) {
-            if (sizeChartItem.values[0].includes("<img")) return <DefinedSizeChart />;
+            // if (sizeChartItem.values[0].includes("<img")) return <DefinedSizeChart />;
         }
     }
 

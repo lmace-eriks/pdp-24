@@ -284,6 +284,12 @@
 
 .reButtonImage {}
 
+.blueBannerContainer {}
+
+.blueBannerText {}
+
+.blueBannerSubtext {}
+
 /* Illegal Code Below */
 
 .pointTrack:last-of-type {
@@ -294,4 +300,26 @@
 .reSlideButton[disabled] {
   opacity: 0.5;
   cursor: default;
+}
+
+.sizeChartTableContainer {
+  table {
+    width: 45rem;
+    max-width: 85vw;
+    font-size: 1.25rem
+  }
+
+  thead th {
+    width: 33%;
+  }
+
+  td,
+  th {
+    padding: 0.5rem 0.25rem;
+    text-align: center;
+  }
+
+  tr:nth-child(odd):not(thead tr) {
+    background: #efefef;
+  }
 }
