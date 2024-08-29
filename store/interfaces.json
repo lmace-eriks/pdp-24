@@ -88,6 +88,9 @@
   "shred-size-chart": {
     "component": "ShredSizeChart"
   },
+  "ebs-blue-banner-source": {
+    "component": "BlueBannerSource"
+  },
   "ebs-blue-banner": {
     "component": "BlueBanner"
   }

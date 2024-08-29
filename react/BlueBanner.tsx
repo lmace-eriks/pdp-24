@@ -2,46 +2,57 @@ import React from "react";
 import { useProduct } from 'vtex.product-context';
 
 import { default as s } from "./styles.css";
+import { canUseDOM } from "vtex.render-runtime";
 
 type BannerObject = {
+    __editorItemTitle?: string
+    bannerType: "none" | "collection" | "parentList"
+    collection?: number
+    parentList?: string
     bannerText: string
     bannerSubtext?: string
     bannerLink?: string
-    parentList: string[]
 }
 
-const banners: BannerObject[] = [
-    {
-        // Abound
-        bannerText: "This Bike Qualifies for Free Accessories with Purchase",
-        bannerSubtext: "Learn More",
-        bannerLink: "/aventon-fulfilled-promotions",
-        parentList: ["PR5A23505"]
-    },
-    {
-        // Aventure.2, Level.2, Sinch.2, Soltera.2
-        bannerText: "This Bike Qualifies for a Free Accessory Bundle",
-        bannerSubtext: "Learn More",
-        bannerLink: "/aventon-fulfilled-promotions",
-        parentList: ["PR5A18619", "PR5A22758", "PR5A17620", "PR5A17621", "PR5A19770", "PR5A20491", "PR5A22761", "PR5A20490"]
-    },
-    {
-        // Pace 500.3
-        bannerText: "This Bike Qualifies for a Free Extra Battery with Purchase",
-        bannerSubtext: "Learn More",
-        bannerLink: "/aventon-fulfilled-promotions",
-        parentList: ["PR5A19224", "PR5A19225"]
-    }
-];
-
 const BlueBanner = () => {
+    if (!canUseDOM) return <></>;
+
+    // @ts-ignore bluePDPBanners does not exist on window.
+    const banners: BannerObject[] = window.bluePDPBanners;
+
     const productContext = useProduct();
     const product = productContext?.product;
     if (!product) return <></>;
 
-    const parentId = product.productReference;
+    const parentId = product.productReference.toUpperCase();
 
-    const bannerIndex = banners.findIndex(banner => banner.parentList.includes(parentId));
+    let bannerIndex = -1;
+
+    // Search parentList first.
+    const parentListBannerIndex = banners.findIndex(banner => {
+        if (banner.bannerType === "parentList") {
+            return banner.parentList?.includes(parentId) ? true : false
+        }
+        return false;
+    });
+
+    if (parentListBannerIndex > -1) {
+        bannerIndex = parentListBannerIndex;
+    } else {
+        // Search collections
+        const productCollections = product.productClusters.map(cluster => Number(cluster.id));
+        if (productCollections.length === 0) return <></>;
+
+        const collectionBannerIndex = banners.findIndex(banner => {
+            if (banner.bannerType === "collection") {
+                return productCollections.includes(banner.collection!);
+            }
+            return false;
+        });
+
+        if (collectionBannerIndex > -1) bannerIndex = collectionBannerIndex;
+    }
+
     if (bannerIndex === -1) return <></>;
 
     const { bannerText, bannerSubtext, bannerLink } = banners[bannerIndex];
